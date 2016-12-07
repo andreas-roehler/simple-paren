@@ -29,6 +29,14 @@
 
 ;; |interactive ==> (interactive)
 
+;; (global-set-key [(super ?\()] 'simple-paren-parentize)
+;; (global-set-key [(super ?{)] 'simple-paren-brace)
+;; (global-set-key [(super ?\[)] 'simple-paren-bracket)
+;; (global-set-key [(super ?')] 'simple-paren-singlequote)
+;; (global-set-key [(super ?\")] 'simple-paren-doublequote)
+;; (global-set-key [(super ?<)] 'simple-paren-lesser-then)
+;; (global-set-key [(super ?>)] 'simple-paren-greater-then)
+
 ;; keeps padding
 ;; | foo == ( foo ) 
 ;;
@@ -85,6 +93,7 @@
   (simple-paren--intern ?´))
 
 (defun simple-paren--intern (char)
+  (skip-chars-backward "^ \t\r\n\f") 
   (insert char)
   (when (looking-at "\\( \\)?[^ \n]+")
     ;; (goto-char (match-end 0))
@@ -92,14 +101,6 @@
     (when (match-string-no-properties 1)
       (insert (match-string-no-properties 1))))
   (insert (simple-paren--return-complement-char-maybe char)))
-
-(global-set-key [(super 40)] 'simple-paren-parentize)
-(global-set-key [(super ?{)] 'simple-paren-brace)
-(global-set-key [(super ?\[)] 'simple-paren-bracket)
-(global-set-key [(super ?')] 'simple-paren-singlequote)
-(global-set-key [(super ?\")] 'simple-paren-doublequote)
-(global-set-key [(super ?<)] 'simple-paren-lesser-then)
-(global-set-key [(super ?>)] 'simple-paren-greater-then)
 
 (provide 'simple-paren)
 ;;; simple-paren.el ends here
