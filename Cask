@@ -3,6 +3,8 @@
 
 (package-file "simple-paren.el")
 
+(files "simple-paren.el")
+
 (development
  (depends-on "php-mode")
  (depends-on "sml-mode")
