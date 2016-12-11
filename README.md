@@ -4,7 +4,7 @@ Simple Paren [![Build Status](https://travis-ci.org/emacs-berlin/simple-paren.sv
 # simple-paren
 Insert paired delimiters, wrap symbols in front maybe
 
-Examples, curor as pipe-symbol:
+Examples, curor after pipe-symbol:
 
 (defun foo1 | ==> (defun foo1 () 
 
