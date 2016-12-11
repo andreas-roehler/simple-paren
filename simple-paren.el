@@ -1,5 +1,6 @@
 ;;; simple-paren.el --- Insert paired delimiter, wrap symbols in front maybe  -*- lexical-binding: t; -*-
 
+;; Version: 0.1
 ;; Copyright (C) 2016  Andreas Röhler
 
 ;; Author: Andreas Röhler <andreas.roehler@online.de>
