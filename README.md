@@ -1,4 +1,4 @@
-Simple Paren [![Build Status](https://travis-ci.org/emacs-berlin/simple-paren.svg?branch=master)](https://travis-ci.org/emacs-berlin/simple-paren)
+Simple Paren [![Build Status](https://travis-ci.org/andreas-roehler/simple-paren.svg?branch=master)](https://travis-ci.org/andreas-roehler/simple-paren)
 ===
 
 # simple-paren
