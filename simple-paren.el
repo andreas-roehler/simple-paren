@@ -57,42 +57,52 @@
     (?{ ?})
     (_ erg)))
 
+;;;###autoload 
 (defun simple-paren-parentize ()
   (interactive "*")
   (simple-paren--intern ?\())
 
+;;;###autoload 
 (defun simple-paren-bracket ()
   (interactive "*")
   (simple-paren--intern ?\[))
 
+;;;###autoload 
 (defun simple-paren-brace ()
   (interactive "*")
   (simple-paren--intern ?{))
 
+;;;###autoload 
 (defun simple-paren-doublequote ()
   (interactive "*")
   (simple-paren--intern ?\"))
 
+;;;###autoload 
 (defun simple-paren-singlequote ()
   (interactive "*")
   (simple-paren--intern ?'))
 
+;;;###autoload 
 (defun simple-paren-lesser-then ()
   (interactive "*")
   (simple-paren--intern ?<))
 
+;;;###autoload 
 (defun simple-paren-greater-then ()
   (interactive "*")
   (simple-paren--intern ?>))
 
+;;;###autoload 
 (defun simple-paren-grave-accent ()
   (interactive "*")
   (simple-paren--intern ?`))
 
+;;;###autoload 
 (defun simple-paren-acute-accent ()
   (interactive "*")
   (simple-paren--intern ?´))
 
+;;;###autoload 
 (defun simple-paren--intern (char)
   (skip-chars-backward "^ \t\r\n\f") 
   (insert char)
