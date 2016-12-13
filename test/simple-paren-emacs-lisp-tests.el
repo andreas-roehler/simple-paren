@@ -33,7 +33,7 @@
   (simple-paren-test-with-elisp-buffer-point-min
     "asdf"
     (simple-paren-parentize)
-    (should (eq (char-before) ?\)))))
+    (should (eq (char-after) ?\)))))
 
 (ert-deftest simple-paren--elisp-parentize-test-2 ()
   (simple-paren-test-with-elisp-buffer

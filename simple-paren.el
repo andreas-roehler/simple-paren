@@ -101,7 +101,8 @@
     (forward-sexp)
     (when (match-string-no-properties 1)
       (insert (match-string-no-properties 1))))
-  (insert (simple-paren--return-complement-char-maybe char)))
+  (insert (simple-paren--return-complement-char-maybe char))
+  (forward-char -1))
 
 (provide 'simple-paren)
 ;;; simple-paren.el ends here
