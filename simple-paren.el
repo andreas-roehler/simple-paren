@@ -26,7 +26,7 @@
 
 ;; Examples, curor as pipe-symbol:
 
-;; (defun foo1 | ==> (defun foo1 () 
+;; (defun foo1 | ==> (defun foo1 ()
 
 ;; |interactive ==> (interactive)
 
@@ -39,7 +39,7 @@
 ;; (global-set-key [(super ?>)] 'simple-paren-greater-then)
 
 ;; keeps padding
-;; | foo == ( foo ) 
+;; | foo == ( foo )
 ;;
 
 ;;; Code:
@@ -57,72 +57,78 @@
     (?{ ?})
     (_ erg)))
 
-;;;###autoload 
+(defun simple-paren--intern (char)
+    (skip-chars-backward "^ \t\r\n\f")
+    (insert char)
+    (when (looking-at "\\( \\)?[^ \n]+")
+      ;; (goto-char (match-end 0))
+      (forward-sexp)
+      (when (match-string-no-properties 1)
+	(insert (match-string-no-properties 1))))
+    (insert (simple-paren--return-complement-char-maybe char))
+    (forward-char -1))
+
+;;;###autoload
 (defun simple-paren-parentize ()
   (interactive "*")
   (simple-paren--intern ?\())
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-bracket ()
   (interactive "*")
   (simple-paren--intern ?\[))
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-brace ()
   (interactive "*")
   (simple-paren--intern ?{))
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-doublequote ()
   (interactive "*")
   (simple-paren--intern ?\"))
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-singlequote ()
   (interactive "*")
   (simple-paren--intern ?'))
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-lesser-then ()
   (interactive "*")
   (simple-paren--intern ?<))
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-greater-then ()
   (interactive "*")
   (simple-paren--intern ?>))
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-grave-accent ()
   (interactive "*")
   (simple-paren--intern ?`))
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-colon ()
   (interactive "*")
   (simple-paren--intern ?:))
 
-;;;###autoload 
+;;;###autoload
+(defun simple-paren-star ()
+  (interactive "*")
+  (simple-paren--intern ?*))
+
+;;;###autoload
 (defun simple-paren-equalize ()
   (interactive "*")
   (simple-paren--intern ?=))
 
-;;;###autoload 
+;;;###autoload
 (defun simple-paren-acute-accent ()
   (interactive "*")
   (simple-paren--intern ?´))
 
-;;;###autoload 
-(defun simple-paren--intern (char)
-  (skip-chars-backward "^ \t\r\n\f") 
-  (insert char)
-  (when (looking-at "\\( \\)?[^ \n]+")
-    ;; (goto-char (match-end 0))
-    (forward-sexp)
-    (when (match-string-no-properties 1)
-      (insert (match-string-no-properties 1))))
-  (insert (simple-paren--return-complement-char-maybe char))
-  (forward-char -1))
+
 
 (provide 'simple-paren)
 ;;; simple-paren.el ends here
