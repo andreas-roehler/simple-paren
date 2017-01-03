@@ -98,6 +98,16 @@
   (simple-paren--intern ?`))
 
 ;;;###autoload 
+(defun simple-paren-colon ()
+  (interactive "*")
+  (simple-paren--intern ?:))
+
+;;;###autoload 
+(defun simple-paren-equalize ()
+  (interactive "*")
+  (simple-paren--intern ?=))
+
+;;;###autoload 
 (defun simple-paren-acute-accent ()
   (interactive "*")
   (simple-paren--intern ?´))

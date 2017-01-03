@@ -43,5 +43,13 @@
     (goto-char (point-min)) 
     (should (eq (char-after) ?\())))
 
+(ert-deftest simple-paren--elisp-colon-test-1 ()
+  (simple-paren-test-with-elisp-buffer
+    "asdf"
+      (forward-char -1) 
+    (simple-paren-colon)
+    (goto-char (point-min)) 
+    (should (eq (char-after) ?:))))
+
 (provide 'simple-paren-emacs-lisp-tests)
 ;;; simple-paren-emacs-lisp-tests.el ends here

@@ -1,6 +1,5 @@
 ;;; simple-paren-setup-ert-tests.el --- Provide needed forms -*- lexical-binding: t; -*-
 
-
 ;; Copyright (C) 2010-2016 Andreas Röhler, unless
 ;; indicated otherwise
 
@@ -34,25 +33,6 @@
 (defvar simple-paren-debug-p nil
   "Avoid error")
 ;; (setq simple-paren-debug-p t)
-
-(unless (featurep 'haskell) 
-  (add-to-list 'load-path (concat simple-paren-install-directory ".cask/24.4/elpa/haskell-mode-20160818.437"))
-  (if (file-readable-p
-       (concat simple-paren-install-directory ".cask/24.4/elpa/haskell-mode-20160818.437/haskell.el"))
-      (progn
-	(message "Lade %s" (concat simple-paren-install-directory ".cask/24.4/elpa/haskell-mode-20160818.437/haskell.el"))
-	(load (concat simple-paren-install-directory ".cask/24.4/elpa/haskell-mode-20160818.437/haskell.el") nil t))
-    (message "Nicht gefunden: %s" (concat simple-paren-install-directory ".cask/24.4/elpa/haskell-mode-20160818.437/haskell.el"))))
-
-;; .cask/24.4/elpa/php-mode-20160910.1801/
-(unless (featurep 'php-mode)
-  (add-to-list 'load-path (concat simple-paren-install-directory ".cask/24.4/elpa/php-mode-20160910.1801"))
-  (if (file-readable-p
-       (concat simple-paren-install-directory ".cask/24.4/elpa/php-mode-20160910.1801/php-mode.el"))
-      (progn
-	(message "Lade %s" (concat simple-paren-install-directory ".cask/24.4/elpa/php-mode-20160910.1801/php-mode.el"))
-	(load (concat simple-paren-install-directory ".cask/24.4/elpa/php-mode-20160910.1801/php-mode.el") nil t))
-    (message "Nicht gefunden: %s" (concat simple-paren-install-directory ".cask/24.4/elpa/php-mode-20160910.1801/php-mode.el"))))
 
 (defmacro simple-paren-test (contents mode verbose &rest body)
   "Create temp buffer inserting CONTENTS.
@@ -115,35 +95,6 @@ BODY is code to be executed within the temp buffer.  Point is
        ,@body)
      (sit-for 0.1)))
 
-(defmacro simple-paren-test-with-php-buffer (contents &rest body)
-  "Create temp buffer in `php-mode' inserting CONTENTS.
-BODY is code to be executed within the temp buffer.  Point is
- at the end of buffer."
-  (declare (indent 1) (debug t))
-  `(with-temp-buffer
-     (let (hs-minor-mode)
-       (php-mode)
-       (insert ,contents)
-       (when simple-paren-debug-p
-	 (switch-to-buffer (current-buffer))
-	 (font-lock-fontify-buffer))
-       ,@body)))
-
-(defmacro simple-paren-test-with-php-buffer-point-min (contents &rest body)
-  "Create temp buffer in `php-mode' inserting CONTENTS.
-BODY is code to be executed within the temp buffer.  Point is
- at the beginning of buffer."
-  (declare (indent 1) (debug t))
-  `(with-temp-buffer
-     (let (hs-minor-mode)
-       (php-mode)
-       (insert ,contents)
-       (goto-char (point-min))
-       (when simple-paren-debug-p
-	 (switch-to-buffer (current-buffer))
-	 (font-lock-fontify-buffer))
-       ,@body)))
-
 (defmacro simple-paren-test-with-ruby-buffer (contents &rest body)
   "Create temp buffer in `ruby-mode' inserting CONTENTS.
 BODY is code to be executed within the temp buffer.  Point is
@@ -200,7 +151,7 @@ BODY is code to be executed within the temp buffer.  Point is
      (let (hs-minor-mode)
        (emacs-lisp-mode)
        (insert ,contents)
-       (goto-char (point-min)) 
+       (goto-char (point-min))
        (when simple-paren-debug-p
 	 (switch-to-buffer (current-buffer))
 	 (font-lock-fontify-buffer))
@@ -292,37 +243,6 @@ BODY is code to be executed within the temp buffer.  Point is
 	 (switch-to-buffer (current-buffer))
 	 (font-lock-fontify-buffer))
        ,@body)))
-
-(defmacro simple-paren-test-with-haskell-buffer (contents &rest body)
-  "Create temp buffer in `haskell-mode' inserting CONTENTS.
-BODY is code to be executed within the temp buffer.  Point is
- at the beginning of buffer."
-  (declare (indent 1) (debug t))
-  `(with-temp-buffer
-     (let (hs-minor-mode)
-       (insert ,contents)
-       (haskell-mode)
-       (when simple-paren-debug-p (switch-to-buffer (current-buffer))
-	     (font-lock-fontify-buffer))
-       ,@body)
-     (sit-for 0.1)))
-
-(defmacro simple-paren-test-with-haskell-buffer-point-min (contents &rest body)
-  "Create temp buffer in `haskell-mode' inserting CONTENTS.
-BODY is code to be executed within the temp buffer.  Point is
- at the beginning of buffer."
-  (declare (indent 1) (debug t))
-  `(with-temp-buffer
-     (let (hs-minor-mode)
-       (insert ,contents)
-       (haskell-mode)
-       ;; (message "fill-paragraph-function: %s" fill-paragraph-function)
-       (goto-char (point-min))
-       (when simple-paren-debug-p (switch-to-buffer (current-buffer))
-	     (font-lock-fontify-buffer))
-       ,@body)
-     (sit-for 0.1)))
-
 
 (defmacro simple-paren-test-with-shell-script-buffer (contents &rest body)
   "Create temp buffer inserting CONTENTS.
