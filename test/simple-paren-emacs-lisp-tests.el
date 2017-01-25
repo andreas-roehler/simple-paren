@@ -51,5 +51,14 @@
     (goto-char (point-min)) 
     (should (eq (char-after) ?:))))
 
+(ert-deftest simple-paren--elisp-singlequote-test-1 ()
+  (simple-paren-test-with-elisp-buffer
+      "print(asdf)"
+      (forward-char -5) 
+    (simple-paren-singlequote)
+    (should (eq (char-after) ?'))))
+
+
+
 (provide 'simple-paren-emacs-lisp-tests)
 ;;; simple-paren-emacs-lisp-tests.el ends here

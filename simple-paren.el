@@ -58,7 +58,7 @@
     (_ erg)))
 
 (defun simple-paren--intern (char)
-    (skip-chars-backward "^ \t\r\n\f")
+    (skip-chars-backward "^\[\]{}() \t\r\n\f")
     (insert char)
     (when (looking-at "\\( \\)?[^ \n]+")
       ;; (goto-char (match-end 0))
