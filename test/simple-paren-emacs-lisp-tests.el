@@ -58,6 +58,13 @@
     (simple-paren-singlequote)
     (should (eq (char-after) ?'))))
 
+(ert-deftest simple-paren--python-singlequote-test-1 ()
+  (simple-paren-test-with-python-buffer
+      "a = [asdf]"
+      (forward-char -5) 
+    (simple-paren-singlequote)
+    (should (eq (char-after) ?'))))
+
 
 
 (provide 'simple-paren-emacs-lisp-tests)
