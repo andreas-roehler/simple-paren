@@ -44,6 +44,9 @@
 
 ;;; Code:
 
+(defvar simple-paren-not-backward-chars "^\[\]{}(), \t\r\n\f"
+  "Skip chars backward not mentioned here. ")
+
 (defun simple-paren--return-complement-char-maybe (erg)
   "For example return \"}\" for \"{\" but keep \"\\\"\". "
   (pcase erg
@@ -63,7 +66,7 @@
 	(progn
 	  (setq end (copy-marker (region-end)))
 	  (goto-char (region-beginning)))
-      (skip-chars-backward "^\[\]{}() \t\r\n\f"))
+      (skip-chars-backward simple-paren-not-backward-chars))
     (insert char)
     (if (region-active-p)
 	(goto-char end)
