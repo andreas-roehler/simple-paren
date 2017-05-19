@@ -44,7 +44,7 @@
 
 ;;; Code:
 
-(defvar simple-paren-not-backward-chars "^\[\]{}(), \t\r\n\f"
+(defvar simple-paren-skip-chars "^\[\]{}(), \t\r\n\f"
   "Skip chars backward not mentioned here. ")
 
 (defun simple-paren--return-complement-char-maybe (erg)
@@ -66,13 +66,15 @@
 	(progn
 	  (setq end (copy-marker (region-end)))
 	  (goto-char (region-beginning)))
-      (skip-chars-backward simple-paren-not-backward-chars))
+      (skip-chars-backward simple-paren-skip-chars))
     (insert char)
     (if (region-active-p)
 	(goto-char end)
       (when (looking-at "\\( \\)?[^ \n]+")
-	;; (goto-char (match-end 0))
-	(forward-sexp)
+	;; travel symbols after point
+	(skip-chars-forward " ") 
+	(skip-chars-forward simple-paren-skip-chars)
+	;; (forward-sexp)
 	(when (match-string-no-properties 1)
 	  (insert (match-string-no-properties 1))))))
   (insert (simple-paren--return-complement-char-maybe char))

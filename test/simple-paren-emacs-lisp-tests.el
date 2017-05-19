@@ -58,6 +58,13 @@
     (simple-paren-singlequote)
     (should (eq (char-after) ?'))))
 
+(ert-deftest simple-paren--elisp-paren-test-1 ()
+  (simple-paren-test-with-elisp-buffer
+      "()"
+      (forward-char -1) 
+    (simple-paren-parentize)
+    (should (eq (char-after) ?\)))))
+
 (ert-deftest simple-paren--python-singlequote-test-1 ()
   (simple-paren-test-with-python-buffer
       "a = [asdf]"
