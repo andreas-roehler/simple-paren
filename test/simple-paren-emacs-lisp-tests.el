@@ -72,6 +72,13 @@
     (simple-paren-singlequote)
     (should (eq (char-after) ?'))))
 
+(ert-deftest simple-paren--python-eol-test-1 ()
+  (simple-paren-test-with-python-buffer
+      "def foo"
+    (simple-paren-parentize)
+    (forward-char 1) 
+    (should (eq (char-before) ?\())))
+
 
 
 (provide 'simple-paren-emacs-lisp-tests)

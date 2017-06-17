@@ -66,7 +66,8 @@
 	(progn
 	  (setq end (copy-marker (region-end)))
 	  (goto-char (region-beginning)))
-      (skip-chars-backward simple-paren-skip-chars))
+      (unless (or (eobp) (eolp)(member (char-after) (list  32 9)))
+      (skip-chars-backward simple-paren-skip-chars)))
     (insert char)
     (if (region-active-p)
 	(goto-char end)
