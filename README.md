@@ -12,3 +12,15 @@ Examples, curor after pipe-symbol:
 keeps padding
 | foo == ( foo ) 
 
+
+Some examples how to set:
+
+(global-set-key [(super \()] 'simple-paren-parentize)
+(global-set-key [(super \/)] 'simple-paren-slash)
+(global-set-key [(super \<)] 'simple-paren-lesser-then)
+(global-set-key [(super \>)] 'simple-paren-greater-then)
+(global-set-key [(super \[)] 'simple-paren-bracket)
+(global-set-key [(super \\)] 'simple-paren-backslash)
+(global-set-key [(super \{)] 'simple-paren-brace)
+
+
