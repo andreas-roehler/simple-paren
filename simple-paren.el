@@ -60,6 +60,8 @@
     (?{ ?})
     (_ erg)))
 
+(defvar simple-paren-braced-newline (list 'js-mode))
+
 (defun simple-paren--intern (char)
   (let (end)
     (if (region-active-p)
@@ -79,7 +81,14 @@
 	(when (match-string-no-properties 1)
 	  (insert (match-string-no-properties 1))))))
   (insert (simple-paren--return-complement-char-maybe char))
-  (forward-char -1))
+  (forward-char -1)
+  (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
+    (newline 2)
+    (indent-according-to-mode)
+    (forward-char 1)
+    (insert ?\;)
+    (forward-line -1)
+    (indent-according-to-mode))) 
 
 ;;;###autoload
 (defun simple-paren-parentize ()
