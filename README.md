@@ -13,7 +13,7 @@ keeps padding
 | foo == ( foo ) 
 
 
-Some examples how to set:
+###### Some examples how to set keys:
 
 (global-set-key [(super \()] 'simple-paren-parentize)
 
