@@ -68,14 +68,14 @@
 	(progn
 	  (setq end (copy-marker (region-end)))
 	  (goto-char (region-beginning)))
-      (unless (or (eobp) (eolp)(member (char-after) (list  32 9)))
-      (skip-chars-backward simple-paren-skip-chars)))
+      (unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
+	(skip-chars-backward simple-paren-skip-chars)))
     (insert char)
     (if (region-active-p)
 	(goto-char end)
       (when (looking-at "\\( \\)?[^ \n]+")
 	;; travel symbols after point
-	(skip-chars-forward " ") 
+	(skip-chars-forward " ")
 	(skip-chars-forward simple-paren-skip-chars)
 	;; (forward-sexp)
 	(when (match-string-no-properties 1)
@@ -88,7 +88,7 @@
     (forward-char 1)
     (insert ?\;)
     (forward-line -1)
-    (indent-according-to-mode))) 
+    (indent-according-to-mode)))
 
 ;;;###autoload
 (defun simple-paren-parentize ()
@@ -114,6 +114,10 @@
 (defun simple-paren-singlequote ()
   (interactive "*")
   (simple-paren--intern ?'))
+
+(defun simple-paren-backtick ()
+  (interactive "*")
+  (simple-paren--intern ?`))
 
 ;;;###autoload
 (defun simple-paren-lesser-then ()
