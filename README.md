@@ -9,8 +9,7 @@ Examples, curor after pipe-symbol:
 
 |interactive ==> (interactive)
 
-keeps padding
-| foo == ( foo ) 
+keeps padding | foo ==> ( foo ) 
 
 
 ###### Some examples how to set keys:
