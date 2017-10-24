@@ -62,7 +62,7 @@
 
 (defvar simple-paren-braced-newline (list 'js-mode))
 
-(defun simple-paren--intern (char)
+(defun simple-paren--intern (char &optional padding)
   (let (end)
     (if (region-active-p)
 	(progn
@@ -73,7 +73,7 @@
     (insert char)
     (if (region-active-p)
 	(goto-char end)
-      (when (looking-at "\\( \\)?[^ \n]+")
+      (when (and padding (looking-at "\\( \\)?[^ \n]+"))
 	;; travel symbols after point
 	(skip-chars-forward " ")
 	(skip-chars-forward simple-paren-skip-chars)
@@ -91,68 +91,81 @@
     (indent-according-to-mode)))
 
 ;;;###autoload
-(defun simple-paren-parentize ()
-  (interactive "*")
-  (simple-paren--intern ?\())
+(defun simple-paren-parentize (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?\( (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-bracket ()
-  (interactive "*")
-  (simple-paren--intern ?\[))
+(defun simple-paren-bracket (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?\[ (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-brace ()
-  (interactive "*")
-  (simple-paren--intern ?{))
+(defun simple-paren-brace (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?{ (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-doublequote ()
-  (interactive "*")
-  (simple-paren--intern ?\"))
+(defun simple-paren-doublequote (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?\" (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-singlequote ()
-  (interactive "*")
-  (simple-paren--intern ?'))
+(defun simple-paren-singlequote (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?' (eq 4 (prefix-numeric-value padding))))
 
-(defun simple-paren-backtick ()
-  (interactive "*")
-  (simple-paren--intern ?`))
-
-;;;###autoload
-(defun simple-paren-lesser-then ()
-  (interactive "*")
-  (simple-paren--intern ?<))
+(defun simple-paren-backtick (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?` (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-greater-then ()
-  (interactive "*")
-  (simple-paren--intern ?>))
+(defun simple-paren-lesser-then (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?< (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-grave-accent ()
-  (interactive "*")
-  (simple-paren--intern ?`))
+(defun simple-paren-greater-then (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?> (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-colon ()
-  (interactive "*")
-  (simple-paren--intern ?:))
+(defun simple-paren-grave-accent (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?` (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-star ()
-  (interactive "*")
-  (simple-paren--intern ?*))
+(defun simple-paren-colon (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?: (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-equalize ()
-  (interactive "*")
-  (simple-paren--intern ?=))
+(defun simple-paren-star (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?* (eq 4 (prefix-numeric-value padding))))
 
 ;;;###autoload
-(defun simple-paren-acute-accent ()
-  (interactive "*")
-  (simple-paren--intern ?´))
+(defun simple-paren-equalize (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?= (eq 4 (prefix-numeric-value padding))))
+
+;;;###autoload
+(defun simple-paren-acute-accent (&optional padding)
+  "With \\[universal-argument] honor padding. "
+  (interactive "*P")
+  (simple-paren--intern ?´ (eq 4 (prefix-numeric-value padding))))
 
 
 
