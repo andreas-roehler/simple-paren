@@ -30,6 +30,9 @@
 
 ;; |interactive ==> (interactive)
 
+;; int|eractive ==> int(eractive)
+
+
 ;; (global-set-key [(super ?\()] 'simple-paren-parentize)
 ;; (global-set-key [(super ?{)] 'simple-paren-brace)
 ;; (global-set-key [(super ?\[)] 'simple-paren-bracket)
@@ -75,20 +78,20 @@
 	(goto-char end)
       (when (and padding (looking-at "\\( \\)?[^ \n]+"))
 	;; travel symbols after point
-	(skip-chars-forward " ")
-	(skip-chars-forward simple-paren-skip-chars)
-	;; (forward-sexp)
-	(when (match-string-no-properties 1)
-	  (insert (match-string-no-properties 1))))))
-  (insert (simple-paren--return-complement-char-maybe char))
-  (forward-char -1)
-  (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
-    (newline 2)
-    (indent-according-to-mode)
-    (forward-char 1)
-    (insert ?\;)
-    (forward-line -1)
-    (indent-according-to-mode)))
+	(skip-chars-forward " "))
+      (skip-chars-forward simple-paren-skip-chars)
+      ;; (forward-sexp)
+      (when (and padding (match-string-no-properties 1))
+	(insert (match-string-no-properties 1))))
+    (insert (simple-paren--return-complement-char-maybe char))
+    (forward-char -1)
+    (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
+      (newline 2)
+      (indent-according-to-mode)
+      (forward-char 1)
+      (insert ?\;)
+      (forward-line -1)
+      (indent-according-to-mode))))
 
 ;;;###autoload
 (defun simple-paren-parentize (&optional padding)

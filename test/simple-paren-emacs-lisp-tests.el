@@ -1,6 +1,5 @@
 ;;; simple-paren-emacs-lisp-tests.el ---  Tests -*- lexical-binding: t; -*-
 
-
 ;; Copyright (C) 2010-2016 Andreas Röhler, unless
 ;; indicated otherwise
 
@@ -28,7 +27,6 @@
 
 ;;; Code:
 
-
 (ert-deftest simple-paren--elisp-parentize-test-1 ()
   (simple-paren-test-with-elisp-buffer-point-min
     "asdf"
@@ -38,37 +36,53 @@
 (ert-deftest simple-paren--elisp-parentize-test-2 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
-      (forward-char -1) 
+      (forward-char -1)
     (simple-paren-parentize)
-    (goto-char (point-min)) 
+    (goto-char (point-min))
     (should (eq (char-after) ?\())))
 
 (ert-deftest simple-paren--elisp-colon-test-1 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
-      (forward-char -1) 
+      (forward-char -1)
     (simple-paren-colon)
-    (goto-char (point-min)) 
+    (goto-char (point-min))
     (should (eq (char-after) ?:))))
 
 (ert-deftest simple-paren--elisp-singlequote-test-1 ()
   (simple-paren-test-with-elisp-buffer
       "print(asdf)"
-      (forward-char -5) 
+      (forward-char -5)
     (simple-paren-singlequote)
     (should (eq (char-after) ?'))))
+
+(ert-deftest simple-paren--elisp-doublequote-test-1 ()
+  (simple-paren-test-with-elisp-buffer
+      " foo "
+      (forward-char -4)
+    (simple-paren-doublequote)
+    (should (eq (char-after) ?\"))))
+
+(ert-deftest simple-paren--elisp-doublequote-test-2 ()
+  (simple-paren-test-with-elisp-buffer-point-min
+      " foo "
+      (simple-paren-doublequote '(4))
+    (should (eq (char-after) ?\"))
+    (should (eq (char-before) 32))))
 
 (ert-deftest simple-paren--elisp-paren-test-1 ()
   (simple-paren-test-with-elisp-buffer
       "()"
-      (forward-char -1) 
+      (forward-char -1)
     (simple-paren-parentize)
     (should (eq (char-after) ?\)))))
+
+
 
 (ert-deftest simple-paren--python-singlequote-test-1 ()
   (simple-paren-test-with-python-buffer
       "a = [asdf]"
-      (forward-char -5) 
+      (forward-char -5)
     (simple-paren-singlequote)
     (should (eq (char-after) ?'))))
 
@@ -76,10 +90,8 @@
   (simple-paren-test-with-python-buffer
       "def foo"
     (simple-paren-parentize)
-    (forward-char 1) 
+    (forward-char 1)
     (should (eq (char-before) ?\())))
-
-
 
 (provide 'simple-paren-emacs-lisp-tests)
 ;;; simple-paren-emacs-lisp-tests.el ends here
