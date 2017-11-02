@@ -66,7 +66,7 @@
 (ert-deftest simple-paren--elisp-doublequote-test-2 ()
   (simple-paren-test-with-elisp-buffer-point-min
       " foo "
-      (simple-paren-doublequote '(4))
+      (simple-paren-doublequote 2)
     (should (eq (char-after) ?\"))
     (should (eq (char-before) 32))))
 
