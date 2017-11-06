@@ -68,21 +68,21 @@
 
 (defvar simple-paren-braced-newline (list 'js-mode))
 
-(defun simple-paren--intern (char &optional arg)
+(defun simple-paren--intern (left-char right-char &optional arg)
   (let ((padding (eq 2 (prefix-numeric-value arg)))
 	(no-wrap (eq 4 (prefix-numeric-value arg)))
 	end)
     (if no-wrap
 	(progn
-	  (insert char)
-	  (insert (simple-paren--return-complement-char-maybe char)))
+	  (insert left-char)
+	  (insert right-char))
       (if (region-active-p)
 	  (progn
 	    (setq end (copy-marker (region-end)))
 	    (goto-char (region-beginning)))
 	(unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
 	  (skip-chars-backward simple-paren-skip-chars)))
-      (insert char)
+      (insert left-char)
       (if (region-active-p)
 	  (goto-char end)
 	(when (and padding (looking-at "\\( \\)?[^ \n]+"))
@@ -92,7 +92,7 @@
 	;; (forward-sexp)
 	(when (and padding (match-string-no-properties 1))
 	  (insert (match-string-no-properties 1))))
-      (insert (simple-paren--return-complement-char-maybe char))
+      (insert right-char)
       (forward-char -1)
       (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
 	(newline 2)
@@ -104,204 +104,213 @@
 
 ;; Commands
 (defun simple-paren-brace (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert braces literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 123 arg))
+  (simple-paren--intern 123 125 arg))
 
 (defun simple-paren-bracket (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert brackets literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 91 arg))
+  (simple-paren--intern 91 93 arg))
 
 (defun simple-paren-lesserangle (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert lesserangles literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 60 arg))
+  (simple-paren--intern 60 62 arg))
 
 (defun simple-paren-greaterangle (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert greaterangles literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 62 arg))
+  (simple-paren--intern 62 60 arg))
 
 (defun simple-paren-leftrightsinglequote (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert leftrightsinglequotes literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 8216 arg))
+  (simple-paren--intern 8216 8217 arg))
 
 (defun simple-paren-leftrightdoublequote (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert leftrightdoublequotes literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 8220 arg))
+  (simple-paren--intern 8220 8221 arg))
 
 (defun simple-paren-parentize (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert parentizes literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 40 arg))
+  (simple-paren--intern 40 41 arg))
 
 (defun simple-paren-acute-accent (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert acute-accents literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 180 arg))
+  (simple-paren--intern 180 180 arg))
 
 (defun simple-paren-backslash (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert backslashs literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 92 arg))
+  (simple-paren--intern 92 92 arg))
 
 (defun simple-paren-backtick (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert backticks literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 96 arg))
+  (simple-paren--intern 96 96 arg))
 
 (defun simple-paren-colon (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert colons literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 58 arg))
+  (simple-paren--intern 58 58 arg))
 
 (defun simple-paren-cross (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert crosss literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 43 arg))
+  (simple-paren--intern 43 43 arg))
 
 (defun simple-paren-dollar (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert dollars literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 36 arg))
+  (simple-paren--intern 36 36 arg))
 
 (defun simple-paren-doublequote (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert doublequotes literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 34 arg))
+  (simple-paren--intern 34 34 arg))
 
 (defun simple-paren-equalize (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert equalizes literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 61 arg))
+  (simple-paren--intern 61 61 arg))
 
 (defun simple-paren-escape (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert escapes literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 92 arg))
+  (simple-paren--intern 92 92 arg))
 
 (defun simple-paren-grave-accent (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert grave-accents literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 96 arg))
+  (simple-paren--intern 96 96 arg))
 
 (defun simple-paren-hash (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert hashs literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 35 arg))
+  (simple-paren--intern 35 35 arg))
 
 (defun simple-paren-hyphen (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert hyphens literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 45 arg))
+  (simple-paren--intern 45 45 arg))
 
 (defun simple-paren-singlequote (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert singlequotes literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 39 arg))
+  (simple-paren--intern 39 39 arg))
 
 (defun simple-paren-slash (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert slashs literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 47 arg))
+  (simple-paren--intern 47 47 arg))
 
 (defun simple-paren-star (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert stars literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 42 arg))
+  (simple-paren--intern 42 42 arg))
 
 (defun simple-paren-tild (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert tilds literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 126 arg))
+  (simple-paren--intern 126 126 arg))
 
 (defun simple-paren-underscore (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert underscores literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 95 arg))
+  (simple-paren--intern 95 95 arg))
 
 (defun simple-paren-whitespace (&optional arg)
-  "With \\[universal-argument] insert delimiter literatim.
+  "With \\[universal-argument] insert whitespaces literatim.
 
 With active region, wrap around.
 With numerical arg 2 honor padding. "
   (interactive "*P")
-  (simple-paren--intern 32 arg))
+  (simple-paren--intern 32 32 arg))
+
+
+;; ?⟦  ?⟧
+(defun simple-paren-mathematical-left-white-square-bracket (arg)
+  "(Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs"
+  (interactive "*P")
+  (simple-paren--intern ?⟦  ?⟧ arg)
+  )
+
 
 (provide 'simple-paren)
 ;;; simple-paren.el ends here
