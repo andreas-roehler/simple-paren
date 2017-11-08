@@ -1,7 +1,7 @@
 ;;; simple-paren.el --- Insert paired delimiter, wrap symbols in front maybe  -*- lexical-binding: t; -*-
 
 ;; Version: 0.1
-;; Copyright (C) 2016  Andreas Röhler
+;; Copyright (C) 2016-2017  Andreas Röhler
 
 ;; Author: Andreas Röhler <andreas.roehler@online.de>
 
@@ -26,11 +26,14 @@
 
 ;; Examples, curor as pipe-symbol:
 
-;; (defun foo1 | ==> (defun foo1 ()
+;; (defun foo1 |	==> (defun foo1 ()
 
-;; |interactive ==> (interactive)
+;; |interactive		==> (interactive)
 
-;; int|eractive ==> int(eractive)
+;; int|eractive		==> int(eractive)
+
+;; With C-u keep padding
+;; | foo		==> ( foo )
 
 ;; (global-set-key [(super ?\()] 'simple-paren-parentize)
 ;; (global-set-key [(super ?{)] 'simple-paren-brace)
@@ -40,8 +43,6 @@
 ;; (global-set-key [(super ?<)] 'simple-paren-lesser-then)
 ;; (global-set-key [(super ?>)] 'simple-paren-greater-then)
 
-;; keeps padding
-;; | foo == ( foo )
 ;;
 
 ;;; Code:
