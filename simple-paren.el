@@ -1,9 +1,13 @@
-;;; simple-paren.el --- Insert paired delimiter, wrap symbols in front maybe  -*- lexical-binding: t; -*-
+;;; simple-paren.el --- Insert paired delimiter, wrap -*- lexical-binding: t; -*-
 
 ;; Version: 0.1
 ;; Copyright (C) 2016-2017  Andreas Röhler
 
 ;; Author: Andreas Röhler <andreas.roehler@online.de>
+
+;; URL: https://github.com/andreas-roehler/simple-paren
+
+;; Package-Requires: ((emacs "24") (cl-lib "0.5"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,9 +24,16 @@
 
 ;; Keywords: convenience
 
-;;; Commentary: Provide common paired delimiters
+;;; Commentary:
+;; Commands inserting paired delimiters. These are are easy to extend
+;; by just providing the delimiting charakters as shown below with
+;; math white square brackets
 
-;; Wrap symbols at point or at one space befor
+;; (defun simple-paren-mathematical-white-square-bracket (arg)
+;;   "Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs"
+;;   (interactive "*P")
+;;   (simple-paren--intern ?⟦  ?⟧ arg)
+;;   )
 
 ;; Examples, curor as pipe-symbol:
 
