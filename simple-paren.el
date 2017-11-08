@@ -25,7 +25,7 @@
 ;; Keywords: convenience
 
 ;;; Commentary:
-;; Commands inserting paired delimiters. These are are easy to extend
+;; Commands inserting paired delimiters.  These are are easy to extend
 ;; by just providing the delimiting charakters as shown below with
 ;; math white square brackets
 
@@ -59,10 +59,10 @@
 ;;; Code:
 
 (defvar simple-paren-skip-chars "^\[\]{}(), \t\r\n\f"
-  "Skip chars backward not mentioned here. ")
+  "Skip chars backward not mentioned here.")
 
 (defun simple-paren--return-complement-char-maybe (erg)
-  "For example return \"}\" for \"{\" but keep \"\\\"\". "
+  "For example return \"}\" for \"{\" but keep \"\\\"\"."
   (pcase erg
     (?< ?>)
     (?> ?<)
@@ -119,7 +119,7 @@
   "With \\[universal-argument] insert braces literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 123 125 arg))
 
@@ -127,7 +127,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert brackets literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 91 93 arg))
 
@@ -135,7 +135,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert lesserangles literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 60 62 arg))
 
@@ -143,7 +143,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert greaterangles literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 62 60 arg))
 
@@ -151,7 +151,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert leftrightsinglequotes literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 8216 8217 arg))
 
@@ -159,7 +159,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert leftrightdoublequotes literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 8220 8221 arg))
 
@@ -167,7 +167,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert parentizes literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 40 41 arg))
 
@@ -175,7 +175,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert acute-accents literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 180 180 arg))
 
@@ -183,7 +183,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert backslashs literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 92 92 arg))
 
@@ -191,7 +191,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert backticks literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 96 96 arg))
 
@@ -199,7 +199,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert colons literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 58 58 arg))
 
@@ -207,7 +207,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert crosss literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 43 43 arg))
 
@@ -215,7 +215,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert dollars literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 36 36 arg))
 
@@ -223,7 +223,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert doublequotes literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 34 34 arg))
 
@@ -231,7 +231,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert equalizes literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 61 61 arg))
 
@@ -239,7 +239,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert escapes literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 92 92 arg))
 
@@ -247,7 +247,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert grave-accents literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 96 96 arg))
 
@@ -255,7 +255,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert hashs literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 35 35 arg))
 
@@ -263,7 +263,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert hyphens literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 45 45 arg))
 
@@ -271,7 +271,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert singlequotes literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 39 39 arg))
 
@@ -279,7 +279,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert slashs literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 47 47 arg))
 
@@ -287,7 +287,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert stars literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 42 42 arg))
 
@@ -295,7 +295,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert tilds literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 126 126 arg))
 
@@ -303,7 +303,7 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert underscores literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 95 95 arg))
 
@@ -311,14 +311,14 @@ With numerical arg 2 honor padding. "
   "With \\[universal-argument] insert whitespaces literatim.
 
 With active region, wrap around.
-With numerical arg 2 honor padding. "
+With numerical ARG 2 honor padding."
   (interactive "*P")
   (simple-paren--intern 32 32 arg))
 
 
 ;; ?⟦  ?⟧
 (defun simple-paren-mathematical-left-white-square-bracket (arg)
-  "(Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs"
+  "(Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs."
   (interactive "*P")
   (simple-paren--intern ?⟦  ?⟧ arg)
   )
