@@ -30,12 +30,15 @@
 ;; math white square brackets
 
 ;; (defun simple-paren-mathematical-white-square-bracket (arg)
-;;   "Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs"
-;;   (interactive "*P")
-;;   (simple-paren--intern ?⟦  ?⟧ arg)
-;;   )
+;;   "Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs
 
-;; Examples, curor as pipe-symbol:
+;; With \\[universal-argument] insert whitespaces literatim
+;; With active region, wrap around.
+;; With numerical ARG 2 honor padding"
+;;   (interactive "*P")
+;;   (simple-paren--intern ?⟦  ?⟧ arg))
+
+;; Examples, cursor as pipe-symbol:
 
 ;; (defun foo1 |	==> (defun foo1 ()
 
