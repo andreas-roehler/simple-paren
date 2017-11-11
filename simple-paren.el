@@ -44,6 +44,9 @@
 
 ;; |interactive		==> (interactive)
 
+;; int|eractive		==> (interactive)
+
+;; with active region until end of word
 ;; int|eractive		==> int(eractive)
 
 ;; With C-u keep padding
