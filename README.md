@@ -27,9 +27,9 @@ In order to have a command inserting mathematical white square brackets, write:
 
     (global-set-key [(super \/)] 'simple-paren-slash)
 
-    (global-set-key [(super \<)] 'simple-paren-lesser-then)
+    (global-set-key [(super \<)] 'simple-paren-lesser-than)
 
-    (global-set-key [(super \>)] 'simple-paren-greater-then)
+    (global-set-key [(super \>)] 'simple-paren-greater-than)
 
     (global-set-key [(super \[)] 'simple-paren-bracket)
 
