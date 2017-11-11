@@ -17,9 +17,9 @@ With C-u keep padding:
 
 In order to have a command inserting mathematical white square brackets, write:
 
-```(defun simple-paren-mathematical-white-square-bracket (arg)
-  (interactive "*P")
-  (simple-paren--intern ?⟦  ?⟧ arg))```
+    (defun simple-paren-mathematical-white-square-bracket (arg)
+      (interactive "*P")
+      (simple-paren--intern ?⟦  ?⟧ arg))
 
 ###### Some examples how to set keys:
 
