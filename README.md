@@ -23,18 +23,18 @@ In order to have a command inserting mathematical white square brackets, write:
 
 ###### Some examples how to set keys:
 
-(global-set-key [(super \()] 'simple-paren-parentize)
+    (global-set-key [(super \()] 'simple-paren-parentize)
 
-(global-set-key [(super \/)] 'simple-paren-slash)
+    (global-set-key [(super \/)] 'simple-paren-slash)
 
-(global-set-key [(super \<)] 'simple-paren-lesser-then)
+    (global-set-key [(super \<)] 'simple-paren-lesser-then)
 
-(global-set-key [(super \>)] 'simple-paren-greater-then)
+    (global-set-key [(super \>)] 'simple-paren-greater-then)
 
-(global-set-key [(super \[)] 'simple-paren-bracket)
+    (global-set-key [(super \[)] 'simple-paren-bracket)
 
-(global-set-key [(super \\)] 'simple-paren-backslash)
+    (global-set-key [(super \\)] 'simple-paren-backslash)
 
-(global-set-key [(super \{)] 'simple-paren-brace)
+    (global-set-key [(super \{)] 'simple-paren-brace)
 
 
