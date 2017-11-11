@@ -3,14 +3,23 @@ Simple Paren [![Build Status](https://travis-ci.org/andreas-roehler/simple-paren
 
 ###### Insert paired delimiters, wrap symbols in front maybe
 
-Examples, curor after pipe-symbol:
+Examples, cursor after pipe-symbol:
 
 (defun foo1 | ==> (defun foo1 () 
 
 |interactive ==> (interactive)
 
-keeps padding | foo ==> ( foo ) 
+With C-u keep padding:
 
+| foo ==> ( foo ) 
+
+###### Easy to extend:
+
+In order to have a command inserting mathematical white square brackets, write:
+
+`(defun simple-paren-mathematical-white-square-bracket (arg)
+  (interactive "*P")
+  (simple-paren--intern ?⟦  ?⟧ arg))`
 
 ###### Some examples how to set keys:
 
