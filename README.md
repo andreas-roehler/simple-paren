@@ -5,13 +5,13 @@ Simple Paren [![Build Status](https://travis-ci.org/andreas-roehler/simple-paren
 
 Examples, cursor after pipe-symbol:
 
-(defun foo1 | ==> (defun foo1 () 
+    (defun foo1 | ==> (defun foo1 () 
 
-|interactive ==> (interactive)
+    |interactive ==> (interactive)
 
 With C-u keep padding:
 
-| foo ==> ( foo ) 
+    | foo ==> ( foo ) 
 
 ###### Easy to extend:
 
