@@ -52,6 +52,8 @@
 ;; With C-u keep padding
 ;; | foo		==> ( foo )
 
+;; Insertions are not electric, thus a mnemonic key is recommended:
+
 ;; (global-set-key [(super ?\()] 'simple-paren-parentize)
 ;; (global-set-key [(super ?{)] 'simple-paren-brace)
 ;; (global-set-key [(super ?\[)] 'simple-paren-bracket)
