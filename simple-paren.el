@@ -1,9 +1,9 @@
 ;;; simple-paren.el --- Insert paired delimiter, wrap -*- lexical-binding: t; -*-
 
 ;; Version: 0.1
-;; Copyright (C) 2016-2017  Andreas Röhler
+;; Copyright (C) 2016-2017  Andreas Röhler, Steve Purcell
 
-;; Author: Andreas Röhler <andreas.roehler@online.de>
+;; Author: Andreas Röhler, Steve Purcell
 
 ;; URL: https://github.com/andreas-roehler/simple-paren
 
