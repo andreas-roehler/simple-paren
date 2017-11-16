@@ -58,5 +58,4 @@
 (when (and noninteractive (simple-paren-runs-this-script-p))
   (simple-paren-run-tests-main))
 
-(provide 'run)
 ;;; run.el ends here
