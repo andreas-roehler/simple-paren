@@ -75,8 +75,52 @@
       "()"
       (forward-char -1)
     (simple-paren-parentize)
-    (should (eq (char-after) ?\)))))
+    (goto-char (point-max))
+    (should (eq (char-before) ?\)))
+    (should (eq 5 (point)))))
 
+(ert-deftest simple-paren--elisp-paren-test-2 ()
+  (simple-paren-test-with-elisp-buffer-point-min
+      "(asdf)"
+    (simple-paren-parentize)
+    (goto-char (point-max))
+    (should (eq (char-before) ?\)))
+    (should (eq 9 (point)))))
+
+(ert-deftest simple-paren--elisp-paren-test-3 ()
+  (simple-paren-test-with-elisp-buffer
+      "{}"
+      (forward-char -1)
+    (simple-paren-parentize)
+    (goto-char (point-max))
+    (should (eq (char-before) ?\)))
+    (should (eq 5 (point)))))
+
+(ert-deftest simple-paren--elisp-paren-test-4 ()
+  (simple-paren-test-with-elisp-buffer-point-min
+      "{asdf}"
+    (simple-paren-parentize)
+    (goto-char (point-max))
+    (should (eq (char-before) ?\)))
+    (should (eq 9 (point)))))
+
+
+(ert-deftest simple-paren--elisp-paren-test-5 ()
+  (simple-paren-test-with-elisp-buffer
+      "[]"
+      (forward-char -1)
+    (simple-paren-parentize)
+    (goto-char (point-max))
+    (should (eq (char-before) ?\)))
+    (should (eq 5 (point)))))
+
+(ert-deftest simple-paren--elisp-paren-test-6 ()
+  (simple-paren-test-with-elisp-buffer-point-min
+      "[asdf]"
+    (simple-paren-parentize)
+    (goto-char (point-max))
+    (should (eq (char-before) ?\)))
+    (should (eq 9 (point)))))
 
 
 (ert-deftest simple-paren--python-singlequote-test-1 ()

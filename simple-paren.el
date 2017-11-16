@@ -37,6 +37,9 @@
 ;; With numerical ARG 2 honor padding"
 ;;   (interactive "*P")
 ;;   (simple-paren--intern ?⟦  ?⟧ arg))
+;;
+;; Or even shorter:
+;; (simple-paren-define mathematical-white-square-bracketwhitespace ?⟦  ?⟧)
 
 ;; Examples, cursor as pipe-symbol:
 
@@ -66,8 +69,10 @@
 
 ;;; Code:
 
-(defvar simple-paren-skip-chars "^\[\]{}(), \t\r\n\f"
+(defvar simple-paren-skip-chars "^, \t\r\n\f"
   "Skip chars backward not mentioned here.")
+
+;; (setq simple-paren-skip-chars "^, \t\r\n\f")
 
 (defun simple-paren--return-complement-char-maybe (erg)
   "For example return \"}\" for \"{\" but keep \"\\\"\"."
@@ -91,7 +96,7 @@
 (defun simple-paren--intern (left-char right-char &optional arg)
   (let ((padding (eq 2 (prefix-numeric-value arg)))
 	(no-wrap (eq 4 (prefix-numeric-value arg)))
-	end)
+	end erg)
     (if no-wrap
 	(progn
 	  (insert left-char)
@@ -100,6 +105,8 @@
 	  (progn
 	    (setq end (copy-marker (region-end)))
 	    (goto-char (region-beginning)))
+	(when (setq erg (member (char-after) (list ?>  ?\) ?\]  ?} 8217 8221)))
+	  (forward-char -1) )
 	(unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
 	  (skip-chars-backward simple-paren-skip-chars)))
       (insert left-char)
@@ -108,6 +115,7 @@
 	(when (and padding (looking-at "\\( \\)?[^ \n]+"))
 	  ;; travel symbols after point
 	  (skip-chars-forward " "))
+	(skip-chars-forward (char-to-string left-char))
 	(skip-chars-forward simple-paren-skip-chars)
 	;; (forward-sexp)
 	(when (and padding (match-string-no-properties 1))
@@ -122,16 +130,6 @@
 	(forward-line -1)
 	(indent-according-to-mode)))))
 
-
-;; ?⟦  ?⟧
-(defun simple-paren-mathematical-left-white-square-bracket (arg)
-  "(Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs."
-  (interactive "*P")
-  (simple-paren--intern ?⟦  ?⟧ arg)
-  )
-
-;; Commands
-
 (defmacro simple-paren-define (name code1 code2)
   "Define an insertion function with NAME, using char codes CODE1 and CODE2."
   (let ((func-name (intern (concat "simple-paren-" (symbol-name name))))
@@ -144,6 +142,7 @@ With numerical ARG 2 honor padding")))
        (interactive "*P")
        (simple-paren--intern ,code1 ,code2 arg))))
 
+;; Commands
 (simple-paren-define brace 123 125)
 (simple-paren-define bracket 91 93)
 (simple-paren-define lesser 60 62)
