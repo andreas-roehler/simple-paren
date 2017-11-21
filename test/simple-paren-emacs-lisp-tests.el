@@ -122,6 +122,14 @@
     (should (eq (char-before) ?\)))
     (should (eq 9 (point)))))
 
+(ert-deftest simple-paren--elisp-paren-test-7 ()
+  (simple-paren-test-with-elisp-buffer-point-min
+      "[asdf]"
+      (simple-paren-ogham-feather-mark)
+    (goto-char (point-max))
+    (should (eq (char-before) ?᚜))
+    (should (eq 9 (point)))))
+
 
 (ert-deftest simple-paren--python-singlequote-test-1 ()
   (simple-paren-test-with-python-buffer
