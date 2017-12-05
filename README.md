@@ -18,6 +18,20 @@ With C-u keep padding:
 
     | foo               ==> ( foo ) 
 
+###### Works also with reachable unary delimiters:
+
+    |interactive      M-x simple-paren-colon RET  ==> :interactive:
+
+###### Mathematicians resp. logicians might use
+
+M-x simple-paren-ogham-feather-mark RET ==> ᚛᚜
+
+or
+
+M-x simple-paren-mathematical-double-angle-bracket RET ==> ⟪⟫
+
+M-x simple-paren- TAB should display what's implemented.
+
 ###### Easy to extend:
 
 In order to have a command inserting mathematical white square brackets, write:
@@ -26,20 +40,14 @@ In order to have a command inserting mathematical white square brackets, write:
       (interactive "*P")
       (simple-paren--intern ?⟦  ?⟧ arg))
 
-###### Some examples how to set keys:
+###### The mode provides keys like that:
 
-    (global-set-key [(super \()] 'simple-paren-parentize)
+    [(super \()] 'simple-paren-parentize
 
-    (global-set-key [(super \/)] 'simple-paren-slash)
+    [(super \/)] 'simple-paren-slash)
 
-    (global-set-key [(super \<)] 'simple-paren-lesser-than)
+    [(super \<)] 'simple-paren-lesser-than)
 
-    (global-set-key [(super \>)] 'simple-paren-greater-than)
 
-    (global-set-key [(super \[)] 'simple-paren-bracket)
-
-    (global-set-key [(super \\)] 'simple-paren-backslash)
-
-    (global-set-key [(super \{)] 'simple-paren-brace)
 
 
