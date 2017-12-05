@@ -49,6 +49,4 @@ If a command inserting mathematical white square brackets wouldn't exist:
 
     [(super \<)] 'simple-paren-lesser-than)
 
-
-
-
+Conceived for a deliberately non-electric use
