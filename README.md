@@ -12,6 +12,7 @@ Examples, cursor after pipe-symbol:
     int|eractive        ==> (interactive)
 
 With active region until end of word
+
     int|eractive        ==> int(eractive)
 
 With C-u keep padding:
