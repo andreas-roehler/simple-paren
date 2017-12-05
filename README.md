@@ -35,7 +35,7 @@ M-x simple-paren- TAB should display what's implemented.
 
 ###### Easy to extend:
 
-In order to have a command inserting mathematical white square brackets, write:
+If a command inserting mathematical white square brackets wouldn't exist:
 
     (defun simple-paren-mathematical-white-square-bracket (arg)
       (interactive "*P")
