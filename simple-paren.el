@@ -70,9 +70,84 @@
 ;;
 
 ;;; Code:
+(defvar simple-paren-paired-delimiter-chars
+  (list
+   ?‘ ?’
+   ?` ?'
+   ?< ?>
+   ?> ?<
+   ?\( ?\)
+   ?\) ?\(
+   ?\] ?\[
+   ?\[ ?\]
+   ?} ?{
+   ?{ ?}
+   ?\〈 ?\〉
+   ?\⦑ ?\⦒
+   ?\⦓ ?\⦔
+   ?\【 ?\】
+   ?\⦗ ?\⦘
+   ?\⸤ ?\⸥
+   ?\「 ?\」
+   ?\《 ?\》
+   ?\⦕ ?\⦖
+   ?\⸨ ?\⸩
+   ?\⧚ ?\⧛
+   ?\｛ ?\｝
+   ?\（ ?\）
+   ?\［ ?\］
+   ?\｟ ?\｠
+   ?\｢ ?\｣
+   ?\❰ ?\❱
+   ?\❮ ?\❯
+   ?\“ ?\”
+   ?\‘ ?\’
+   ?\❲ ?\❳
+   ?\⟨ ?\⟩
+   ?\⟪ ?\⟫
+   ?\⟮ ?\⟯
+   ?\⟦ ?\⟧
+   ?\⟬ ?\⟭
+   ?\❴ ?\❵
+   ?\❪ ?\❫
+   ?\❨ ?\❩
+   ?\❬ ?\❭
+   ?\᚛ ?\᚜
+   ?\〈 ?\〉
+   ?\⧼ ?\⧽
+   ?\⟅ ?\⟆
+   ?\⸦ ?\⸧
+   ?\﹛ ?\﹜
+   ?\﹙ ?\﹚
+   ?\﹝ ?\﹞
+   ?\⁅ ?\⁆
+   ?\⦏ ?\⦎
+   ?\⦍ ?\⦐
+   ?\⦋ ?\⦌
+   ?\₍ ?\₎
+   ?\⁽ ?\⁾
+   ?\༼ ?\༽
+   ?\༺ ?\༻
+   ?\⸢ ?\⸣
+   ?\〔 ?\〕
+   ?\『 ?\』
+   ?\⦃ ?\⦄
+   ?\〖 ?\〗
+   ?\⦅ ?\⦆
+   ?\〚 ?\〛
+   ?\〘 ?\〙
+   ?\⧘ ?\⧙
+   ?\⦉ ?\⦊
+   ?\⦇ ?\⦈))
+
 
 (defvar simple-paren-skip-chars "^, \t\r\n\f"
   "Skip chars backward not mentioned here.")
+
+(dolist (ele simple-paren-paired-delimiter-chars)
+  (unless (string-match (regexp-quote (char-to-string ele)) simple-paren-skip-chars)
+    (setq simple-paren-skip-chars
+	  (concat simple-paren-skip-chars (char-to-string ele)))))
 
 ;; (setq simple-paren-skip-chars "^, \t\r\n\f")
 
@@ -163,8 +238,8 @@
 	  (progn
 	    (setq end (copy-marker (region-end)))
 	    (goto-char (region-beginning)))
-	(when (setq erg (member (char-after) (list ?>  ?\) ?\]  ?} 8217 8221)))
-	  (forward-char -1) )
+	;; (when (setq erg (member (char-after) (list ?>  ?\) ?\]  ?} 8217 8221)))
+	;;   (forward-char -1) )
 	(unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
 	  (skip-chars-backward simple-paren-skip-chars)))
       (insert left-char)

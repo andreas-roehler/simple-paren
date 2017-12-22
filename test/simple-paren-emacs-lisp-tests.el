@@ -92,17 +92,16 @@
       "{}"
       (forward-char -1)
     (simple-paren-parentize)
-    (goto-char (point-max))
-    (should (eq (char-before) ?\)))
-    (should (eq 5 (point)))))
+    (should (eq (char-after) ?\)))
+    (should (eq 3 (point)))))
 
 (ert-deftest simple-paren--elisp-paren-test-4 ()
-  (simple-paren-test-with-elisp-buffer-point-min
+  (simple-paren-test-with-elisp-buffer
       "{asdf}"
+      (forward-char -1)
     (simple-paren-parentize)
-    (goto-char (point-max))
-    (should (eq (char-before) ?\)))
-    (should (eq 9 (point)))))
+    (should (eq (char-after) ?\)))
+    (should (eq 7 (point)))))
 
 
 (ert-deftest simple-paren--elisp-paren-test-5 ()
@@ -110,26 +109,37 @@
       "[]"
       (forward-char -1)
     (simple-paren-parentize)
-    (goto-char (point-max))
-    (should (eq (char-before) ?\)))
-    (should (eq 5 (point)))))
+    (should (eq (char-after) ?\)))
+    (should (eq 3 (point)))))
 
 (ert-deftest simple-paren--elisp-paren-test-6 ()
-  (simple-paren-test-with-elisp-buffer-point-min
+  (simple-paren-test-with-elisp-buffer
       "[asdf]"
+      (forward-char -1)
     (simple-paren-parentize)
-    (goto-char (point-max))
-    (should (eq (char-before) ?\)))
-    (should (eq 9 (point)))))
+    (should (eq (char-after) ?\)))
+    (should (eq 7 (point)))))
 
 (ert-deftest simple-paren--elisp-paren-test-7 ()
-  (simple-paren-test-with-elisp-buffer-point-min
+  (simple-paren-test-with-elisp-buffer
       "[asdf]"
+      (push-mark nil nil t)
+    (beginning-of-line)
+    (simple-paren-ogham-feather-mark)
+    (should (eq (char-after) ?᚜))
+    ;; (should (eq 8 (point)))
+    ))
+
+
+(ert-deftest simple-paren--elisp-paren-test-8 ()
+  (simple-paren-test-with-elisp-buffer
+      "[asdf]"
+      (forward-char -1)
       (simple-paren-ogham-feather-mark)
     (goto-char (point-max))
+    (forward-char -1)
     (should (eq (char-before) ?᚜))
-    (should (eq 9 (point)))))
-
+    (should (eq 8 (point)))))
 
 (ert-deftest simple-paren--python-singlequote-test-1 ()
   (simple-paren-test-with-python-buffer
