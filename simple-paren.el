@@ -64,8 +64,8 @@
 ;; (global-set-key [(super ?\[)] 'simple-paren-bracket)
 ;; (global-set-key [(super ?')] 'simple-paren-singlequote)
 ;; (global-set-key [(super ?\")] 'simple-paren-doublequote)
-;; (global-set-key [(super ?<)] 'simple-paren-lesser-then)
-;; (global-set-key [(super ?>)] 'simple-paren-greater-then)
+;; (global-set-key [(super ?<)] 'simple-paren-lesser-than)
+;; (global-set-key [(super ?>)] 'simple-paren-greater-than)
 
 ;;
 
@@ -381,9 +381,9 @@ With numerical ARG 2 honor padding")))
     (define-key map [(super ?\-)] 'simple-paren-hyphen)
     (define-key map [(super ?\/)] 'simple-paren-slash)
     (define-key map [(super ?\:)] 'simple-paren-colon)
-    (define-key map [(super ?\<)] 'simple-paren-lesser-then)
+    (define-key map [(super ?\<)] 'simple-paren-lesser-than)
     (define-key map [(super ?\=)] 'simple-paren-equalize)
-    (define-key map [(super ?\>)] 'simple-paren-greater-then)
+    (define-key map [(super ?\>)] 'simple-paren-greater-than)
     (define-key map [(super ?\[)] 'simple-paren-bracket)
     (define-key map [(super ?\\)] 'simple-paren-backslash)
     (define-key map [(super ?\\)] 'simple-paren-escape)
