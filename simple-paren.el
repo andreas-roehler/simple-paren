@@ -2,7 +2,7 @@
 
 ;; Version: 0.1
 
-;; Copyright (C) 2016-2017  Andreas Röhler, Steve Purcell
+;; Copyright (C) 2016-2018  Andreas Röhler, Steve Purcell
 ;; See also http://www.unicode.org/L2/L2013/13046-BidiBrackets.txt
 
 ;; Author: Andreas Röhler, Steve Purcell
