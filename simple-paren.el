@@ -151,10 +151,10 @@
 (defvar simple-paren-skip-chars "^, \t\r\n\f"
   "Skip chars backward not mentioned here.")
 
-(dolist (ele simple-paren-paired-delimiter-chars)
-  (unless (string-match (regexp-quote (char-to-string ele)) simple-paren-skip-chars)
-    (setq simple-paren-skip-chars
-	  (concat simple-paren-skip-chars (char-to-string ele)))))
+;; (dolist (ele simple-paren-paired-delimiter-chars)
+;;   (unless (string-match (regexp-quote (char-to-string ele)) simple-paren-skip-chars)
+;;     (setq simple-paren-skip-chars
+;; 	  (concat simple-paren-skip-chars (char-to-strig ele)))))
 
 ;; (setq simple-paren-skip-chars "^, \t\r\n\f")
 
@@ -233,42 +233,44 @@
 
 (defvar simple-paren-braced-newline (list 'js-mode))
 
-(defcustom simple-paren-honor-padding-p nil
-  "When set to ‘t’, the default, honor padding" 
+(defcustom simple-paren-honor-padding-p t
+  "Default is ‘t’, honor padding."
   :type 'boolean
   :group 'convenience)
 
 (defun simple-paren--intern (left-char right-char arg)
   (let* ((no-wrap (equal '(4) arg))
 	 (times (prefix-numeric-value arg))
-	end erg)
-    (message "%s" times)
+	 end erg padding fillchar)
     (if no-wrap
 	(progn
-	    (insert left-char)
-	    (insert right-char))
+	  (insert left-char)
+	  (insert right-char))
       (if (region-active-p)
 	  (progn
 	    (setq end (copy-marker (region-end)))
 	    (goto-char (region-beginning)))
-	;; (when (setq erg (member (char-after) (list ?>  ?\) ?\]  ?} 8217 8221)))
-	;;   (forward-char -1))
 	(unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
 	  (skip-chars-backward simple-paren-skip-chars)))
+      (when (and simple-paren-honor-padding-p (member (char-after) (list 32 9)))
+	(setq fillchar (char-after))
+	(save-excursion
+	  (setq padding (skip-chars-forward " \t" (line-end-position)))))
       (dotimes (i times)
 	(insert left-char))
       (if (region-active-p)
 	  (goto-char end)
-	(when (and simple-paren-honor-padding-p (looking-at "\\( \\)?[^ \n]+"))
 	  ;; travel symbols after point
-	  (skip-chars-forward " "))
-	(skip-chars-forward (char-to-string left-char))
-	(skip-chars-forward simple-paren-skip-chars)
-	;; (forward-sexp)
-	(when (and simple-paren-honor-padding-p (match-string-no-properties 1))
-	  (insert (match-string-no-properties 1))))
+	  (skip-chars-forward " \t")
+	  (skip-chars-forward (char-to-string left-char))
+	  (skip-chars-forward simple-paren-skip-chars))
+      (when padding
+	(dotimes (i padding)
+	  (insert fillchar)))
       (dotimes (i times)
 	(insert right-char))
+      (dotimes (i times)
+	(forward-char -1))
       (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
 	(newline 2)
 	(indent-according-to-mode)

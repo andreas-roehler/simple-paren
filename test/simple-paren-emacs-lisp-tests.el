@@ -30,14 +30,14 @@
 (ert-deftest simple-paren--elisp-parentize-test-1 ()
   (simple-paren-test-with-elisp-buffer-point-min
     "asdf"
-    (simple-paren-parentize)
+    (simple-paren-parentize 1)
     (should (eq (char-after) ?\)))))
 
 (ert-deftest simple-paren--elisp-parentize-test-2 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
       (forward-char -1)
-    (simple-paren-parentize)
+    (simple-paren-parentize 1)
     (goto-char (point-min))
     (should (eq (char-after) ?\())))
 
@@ -45,7 +45,7 @@
   (simple-paren-test-with-elisp-buffer
     "asdf"
       (forward-char -1)
-    (simple-paren-colon)
+    (simple-paren-colon 1)
     (goto-char (point-min))
     (should (eq (char-after) ?:))))
 
@@ -53,14 +53,14 @@
   (simple-paren-test-with-elisp-buffer
       "print(asdf)"
       (forward-char -5)
-    (simple-paren-singlequote)
+    (simple-paren-singlequote 1)
     (should (eq (char-after) ?'))))
 
 (ert-deftest simple-paren--elisp-doublequote-test-1 ()
   (simple-paren-test-with-elisp-buffer
       " foo "
       (forward-char -4)
-    (simple-paren-doublequote)
+    (simple-paren-doublequote 1)
     (should (eq (char-after) ?\"))))
 
 (ert-deftest simple-paren--elisp-doublequote-test-2 ()
@@ -74,84 +74,75 @@
   (simple-paren-test-with-elisp-buffer
       "()"
       (forward-char -1)
-    (simple-paren-parentize)
+    (simple-paren-parentize 1)
     (goto-char (point-max))
-    (should (eq (char-before) ?\)))
-    (should (eq 5 (point)))))
+    (should (eq (char-before) ?\)))))
 
 (ert-deftest simple-paren--elisp-paren-test-2 ()
   (simple-paren-test-with-elisp-buffer-point-min
       "(asdf)"
-    (simple-paren-parentize)
+      (simple-paren-parentize 1)
     (goto-char (point-max))
-    (should (eq (char-before) ?\)))
-    (should (eq 9 (point)))))
+    (should (eq (char-before) ?\)))))
 
 (ert-deftest simple-paren--elisp-paren-test-3 ()
   (simple-paren-test-with-elisp-buffer
       "{}"
       (forward-char -1)
-    (simple-paren-parentize)
-    (should (eq (char-after) ?\)))
-    (should (eq 3 (point)))))
+    (simple-paren-parentize 1)
+    (should (eq (char-after) ?\)))))
 
 (ert-deftest simple-paren--elisp-paren-test-4 ()
   (simple-paren-test-with-elisp-buffer
       "{asdf}"
       (forward-char -1)
-    (simple-paren-parentize)
-    (should (eq (char-after) ?\)))
-    (should (eq 7 (point)))))
+    (simple-paren-parentize 1)
+    (should (eq (char-after) ?\)))))
 
 
 (ert-deftest simple-paren--elisp-paren-test-5 ()
   (simple-paren-test-with-elisp-buffer
       "[]"
       (forward-char -1)
-    (simple-paren-parentize)
-    (should (eq (char-after) ?\)))
-    (should (eq 3 (point)))))
+    (simple-paren-parentize 1)
+    (should (eq (char-after) ?\)))))
 
 (ert-deftest simple-paren--elisp-paren-test-6 ()
   (simple-paren-test-with-elisp-buffer
       "[asdf]"
       (forward-char -1)
-    (simple-paren-parentize)
-    (should (eq (char-after) ?\)))
-    (should (eq 7 (point)))))
+    (simple-paren-parentize 1)
+    (should (eq (char-after) ?\)))))
 
 (ert-deftest simple-paren--elisp-paren-test-7 ()
   (simple-paren-test-with-elisp-buffer
       "[asdf]"
       (push-mark nil nil t)
     (beginning-of-line)
-    (simple-paren-ogham-feather-mark)
-    (should (eq (char-after) ?᚜))
-    ;; (should (eq 8 (point)))
-    ))
+    (simple-paren-ogham-feather-mark 1)
+    (should (eq (char-after) ?᚜))))
 
 
 (ert-deftest simple-paren--elisp-paren-test-8 ()
   (simple-paren-test-with-elisp-buffer
       "[asdf]"
       (forward-char -1)
-      (simple-paren-ogham-feather-mark)
+    (simple-paren-ogham-feather-mark 1)
     (goto-char (point-max))
     (forward-char -1)
-    (should (eq (char-before) ?᚜))
-    (should (eq 8 (point)))))
+    (should (eq (char-after) ?᚜))))
 
 (ert-deftest simple-paren--python-singlequote-test-1 ()
   (simple-paren-test-with-python-buffer
       "a = [asdf]"
       (forward-char -5)
-    (simple-paren-singlequote)
+    (simple-paren-singlequote 1)
     (should (eq (char-after) ?'))))
 
 (ert-deftest simple-paren--python-eol-test-1 ()
   (simple-paren-test-with-python-buffer
       "def foo"
-    (simple-paren-parentize)
+    (simple-paren-parentize 1)
     (forward-char 1)
     (should (eq (char-before) ?\())))
 
