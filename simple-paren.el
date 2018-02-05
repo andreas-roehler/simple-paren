@@ -36,7 +36,7 @@
 
 ;; With \\[universal-argument] insert whitespaces literatim
 ;; With active region, wrap around.
-;; With numerical ARG 2 honor padding"
+;; With numerical ARG insert the delimiter arg times"
 ;;   (interactive "*P")
 ;;   (simple-paren--intern ?⟦  ?⟧ arg))
 ;;
@@ -54,7 +54,8 @@
 ;; with active region until end of word
 ;; int|eractive		==> int(eractive)
 
-;; With C-u keep padding
+;; With ‘simple-paren-honor-padding-p’ set to ‘t’ --the default--
+;; honor padding:
 ;; | foo		==> ( foo )
 
 ;; Insertions are not electric, thus a mnemonic key is recommended:
@@ -70,6 +71,12 @@
 ;;
 
 ;;; Code:
+
+;; (require 'beg-end)
+;; (require 'ar-subr)
+;; (require 'thingatpt-utils-map)
+;; (require 'thingatpt-utils-core)
+
 (defvar simple-paren-paired-delimiter-chars
   (list
    ?‘ ?’
@@ -226,35 +233,42 @@
 
 (defvar simple-paren-braced-newline (list 'js-mode))
 
-(defun simple-paren--intern (left-char right-char &optional arg)
-  (let ((padding (eq 2 (prefix-numeric-value arg)))
-	(no-wrap (eq 4 (prefix-numeric-value arg)))
+(defcustom simple-paren-honor-padding-p nil
+  "When set to ‘t’, the default, honor padding" 
+  :type 'boolean
+  :group 'convenience)
+
+(defun simple-paren--intern (left-char right-char arg)
+  (let* ((no-wrap (equal '(4) arg))
+	 (times (prefix-numeric-value arg))
 	end erg)
+    (message "%s" times)
     (if no-wrap
 	(progn
-	  (insert left-char)
-	  (insert right-char))
+	    (insert left-char)
+	    (insert right-char))
       (if (region-active-p)
 	  (progn
 	    (setq end (copy-marker (region-end)))
 	    (goto-char (region-beginning)))
 	;; (when (setq erg (member (char-after) (list ?>  ?\) ?\]  ?} 8217 8221)))
-	;;   (forward-char -1) )
+	;;   (forward-char -1))
 	(unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
 	  (skip-chars-backward simple-paren-skip-chars)))
-      (insert left-char)
+      (dotimes (i times)
+	(insert left-char))
       (if (region-active-p)
 	  (goto-char end)
-	(when (and padding (looking-at "\\( \\)?[^ \n]+"))
+	(when (and simple-paren-honor-padding-p (looking-at "\\( \\)?[^ \n]+"))
 	  ;; travel symbols after point
 	  (skip-chars-forward " "))
 	(skip-chars-forward (char-to-string left-char))
 	(skip-chars-forward simple-paren-skip-chars)
 	;; (forward-sexp)
-	(when (and padding (match-string-no-properties 1))
+	(when (and simple-paren-honor-padding-p (match-string-no-properties 1))
 	  (insert (match-string-no-properties 1))))
-      (insert right-char)
-      (forward-char -1)
+      (dotimes (i times)
+	(insert right-char))
       (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
 	(newline 2)
 	(indent-according-to-mode)
@@ -270,11 +284,12 @@
 
 With active region, wrap around.
 With numerical ARG 2 honor padding")))
-    `(defun ,func-name (&optional arg)
+    `(defun ,func-name (times)
        ,docstring
        (interactive "*P")
-       (simple-paren--intern ,code1 ,code2 arg))))
+       (simple-paren--intern ,code1 ,code2 times))))
 
+(simple-paren-define doublequote ?\" ?\")
 (simple-paren-define acute-accent ?\´ ?\´)
 (simple-paren-define angle-bracket ?\〈 ?\〉)
 (simple-paren-define angle-bracket-with-dot ?\⦑ ?\⦒)
@@ -300,7 +315,6 @@ With numerical ARG 2 honor padding")))
 (simple-paren-define double-arc-greater-than-bracket ?\⦕ ?\⦖)
 (simple-paren-define double-parenthesis ?\⸨ ?\⸩)
 (simple-paren-define double-wiggly-fence ?\⧚ ?\⧛)
-(simple-paren-define doublequote ?\" ?\")
 (simple-paren-define equalize ?\= ?\=)
 (simple-paren-define escape ?\\ ?\\)
 (simple-paren-define fullwidth-curly-bracket ?\｛ ?\｝)
