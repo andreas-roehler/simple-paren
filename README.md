@@ -15,7 +15,11 @@ With active region until end of word
 
     int|eractive        ==> int(eractive)
 
-With C-u keep padding:
+With C-u insert literally:
+
+    int|eractive        ==> (interactive)
+
+keep padding:
 
     | foo               ==> ( foo ) 
 
