@@ -128,8 +128,6 @@
       "[asdf]"
       (forward-char -1)
     (simple-paren-ogham-feather-mark 1)
-    (goto-char (point-max))
-    (forward-char -1)
     (should (eq (char-after) ?᚜))))
 
 (ert-deftest simple-paren--python-singlequote-test-1 ()
@@ -145,6 +143,13 @@
     (simple-paren-parentize 1)
     (forward-char 1)
     (should (eq (char-before) ?\())))
+
+(ert-deftest simple-paren--in-delimiters-test-1 ()
+  (simple-paren-test-with-elisp-buffer
+    "(asdf)"
+      (forward-char -3) 
+    (simple-paren-brace 1)
+    (should (eq (char-after) ?}))))
 
 (provide 'simple-paren-emacs-lisp-tests)
 ;;; simple-paren-emacs-lisp-tests.el ends here
