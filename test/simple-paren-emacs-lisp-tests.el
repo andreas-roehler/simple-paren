@@ -36,16 +36,19 @@
 (ert-deftest simple-paren--elisp-parentize-test-2 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
-      (forward-char -1)
-    (simple-paren-parentize 1)
+    (push-mark) 
     (goto-char (point-min))
-    (should (eq (char-after) ?\())))
+    (simple-paren-parentize '(4))
+    (should (eq (char-before) ?\)))))
 
 (ert-deftest simple-paren--elisp-colon-test-1 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
       (forward-char -1)
-    (simple-paren-colon 1)
+    (push-mark)
+    (goto-char (point-min))
+    (simple-paren--intern ?: ?: '(4))
+    (should (eq (char-before) ?:))
     (goto-char (point-min))
     (should (eq (char-after) ?:))))
 
@@ -60,15 +63,28 @@
   (simple-paren-test-with-elisp-buffer
       " foo "
       (forward-char -4)
-    (simple-paren-doublequote 1)
-    (should (eq (char-after) ?\"))))
+    (simple-paren--intern ?\" ?\" 1)
+    (should (eq (char-before) ?\"))))
 
-(ert-deftest simple-paren--elisp-doublequote-test-2 ()
-  (simple-paren-test-with-elisp-buffer-point-min
+(ert-deftest simple-paren--elisp-doublequote-test-fk7ByP ()
+  (simple-paren-test-with-elisp-buffer
       " foo "
-      (simple-paren-doublequote 2)
-    (should (eq (char-after) ?\"))
-    (should (eq (char-before) 32))))
+      (push-mark)
+    (goto-char (point-min))
+    (simple-paren-doublequote 2)
+    ;; (should (eq (char-after) ?\"))
+    ;; (should (eq (char-before) ?\s))
+    (should (looking-back "\" foo \"" (line-beginning-position)))))
+
+(ert-deftest simple-paren--elisp-doublequote-test-FivewW ()
+  (simple-paren-test-with-elisp-buffer
+      " foo"
+      (push-mark)
+    (goto-char (point-min))
+    (simple-paren-doublequote 2)
+    ;; (should (eq (char-after) ?\"))
+    ;; (should (eq (char-before) ?\s))
+    (should (looking-back "\" foo \"" (line-beginning-position)))))
 
 (ert-deftest simple-paren--elisp-paren-test-1 ()
   (simple-paren-test-with-elisp-buffer
@@ -147,9 +163,20 @@
 (ert-deftest simple-paren--in-delimiters-test-1 ()
   (simple-paren-test-with-elisp-buffer
     "(asdf)"
-      (forward-char -3) 
+      (forward-char -3)
     (simple-paren-brace 1)
     (should (eq (char-after) ?}))))
+
+(ert-deftest simple-paren--doublequote-test-OW6P9C ()
+  (simple-paren-test-with-elisp-buffer
+      "(defun foo1 (&optional beg end)"
+      (search-backward "o")
+    (push-mark)
+    (goto-char (point-max))
+    (simple-paren--intern ?\" ?\" '(4))
+    (should (eq (char-before) ?\"))
+    (search-backward "o")
+    (should (eq (char-before) ?\"))))
 
 (provide 'simple-paren-emacs-lisp-tests)
 ;;; simple-paren-emacs-lisp-tests.el ends here

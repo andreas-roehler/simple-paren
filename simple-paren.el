@@ -1,8 +1,8 @@
-;;; simple-paren.el --- Insert paired delimiter, wrap -*- lexical-binding: t; -*-
+;;; simple-paren.el --- Non-electrical insert paired delimiter, wrap -*- lexical-binding: t; -*-
 
 ;; Version: 0.1
 
-;; Copyright (C) 2016-2018  Andreas Röhler, Steve Purcell
+;; Copyright (C) 2016-2019  Andreas Röhler, Steve Purcell
 ;; See also http://www.unicode.org/L2/L2013/13046-BidiBrackets.txt
 
 ;; Author: Andreas Röhler, Steve Purcell
@@ -27,18 +27,19 @@
 ;; Keywords: convenience
 
 ;;; Commentary:
-;; Commands inserting paired delimiters.  These are are easy to extend
-;; by just providing the delimiting charakters as shown below with
-;; math white square brackets
+;; Commands inserting paired delimiters, by default literatim.
+
+;; With \\[universal-argument] and with active region,
+;;  --i.e. transient-mark-mode-- wrap around. With numerical ARG insert the
+;; delimiter arg times
+
+;; Create your own commands by just providing the delimiting
+;; charakters as shown below with math white square brackets:
 
 ;; (defun simple-paren-mathematical-white-square-bracket (arg)
-;;   "Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs
-
-;; With \\[universal-argument] insert whitespaces literatim
-;; With active region, wrap around.
-;; With numerical ARG insert the delimiter arg times"
-;;   (interactive "*P")
-;;   (simple-paren--intern ?⟦  ?⟧ arg))
+;;   "Insert MATHEMATICAL LEFT/RIGHT WHITE SQUARE BRACKETs"
+;;  (interactive "*P") (simple-paren--intern ?⟦ ?⟧
+;;     arg))
 ;;
 ;; Or even shorter:
 ;; (simple-paren-define mathematical-white-square-bracketwhitespace ?⟦  ?⟧)
@@ -47,15 +48,14 @@
 
 ;; (defun foo1 |	==> (defun foo1 ()
 
+;; with active region and \\[universal-argument] until end of word
 ;; |interactive		==> (interactive)
 
-;; int|eractive		==> (interactive)
-
-;; with active region until end of word
+;; with active region and \\[universal-argument] until end of word
 ;; int|eractive		==> int(eractive)
 
-;; With ‘simple-paren-honor-padding-p’ set to ‘t’ --the default--
-;; honor padding:
+;; With ‘simple-paren-honor-padding-p’ set to ‘t’, active region 
+;; and \\[universal-argument]
 ;; | foo		==> ( foo )
 
 ;; Insertions are not electric, thus a mnemonic key is recommended:
@@ -72,10 +72,7 @@
 
 ;;; Code:
 
-;; (require 'beg-end)
-;; (require 'ar-subr)
-;; (require 'thingatpt-utils-map)
-;; (require 'thingatpt-utils-core)
+(require 'thingatpt)
 
 (defvar simple-paren-paired-delimiter-chars
   (list
@@ -387,55 +384,99 @@
   :type 'boolean
   :group 'convenience)
 
-(defun simple-paren--intern (left-char right-char arg)
-  (let* ((no-wrap (equal '(4) arg))
-	 (times (if no-wrap
+;; (defun simple-paren--intern (left-char right-char arg)
+;;   (let* ((no-wrap (equal '(4) arg))
+;; 	 (times (if no-wrap
+;; 		    1
+;; 		     (prefix-numeric-value arg)))
+;; 	 end erg padding fillchar)
+;;     (if no-wrap
+;; 	(progn
+;; 	  (insert left-char)
+;; 	  (insert right-char))
+;;       (if (region-active-p)
+;; 	  (progn
+;; 	    (setq end (copy-marker (region-end)))
+;; 	    (goto-char (region-beginning)))
+;; 	(unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
+;; 	  (skip-chars-backward simple-paren-backward-skip-chars)))
+;;       (when (and simple-paren-honor-padding-p (member (char-after) (list 32 9)))
+;; 	(setq fillchar (char-after))
+;; 	(save-excursion
+;; 	  (setq padding (skip-chars-forward " \t" (line-end-position)))))
+;;       (dotimes (i times)
+;; 	(insert left-char))
+;;       (if (region-active-p)
+;; 	  (goto-char end)
+;; 	  ;; travel symbols after point
+;; 	  (skip-chars-forward " \t")
+;; 	  (skip-chars-forward (char-to-string left-char))
+;; 	  (skip-chars-forward simple-paren-skip-chars))
+;;       (when padding
+;; 	(dotimes (i padding)
+;; 	  (insert fillchar)))
+;;       (dotimes (i times)
+;; 	(insert right-char))
+;;       (dotimes (i times)
+;; 	(forward-char -1))
+;;       (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
+;; 	(newline 2)
+;; 	(indent-according-to-mode)
+;; 	(forward-char 1)
+;; 	(insert ?\;)
+;; 	(forward-line -1)
+;; 	(indent-according-to-mode)))))
+
+
+(defun simple-paren--insert-literary (left-char right-char times)
+  (dotimes (_ times)
+    (insert left-char)
+    (insert right-char)
+    (backward-char)))
+
+(defun simple-paren--fix-braced-newline ()
+  (when (eq (char-after) ?})
+    (newline 2)
+    (indent-according-to-mode)
+    (forward-char 1)
+    (insert ?\;)
+    (forward-line -1)
+    (indent-according-to-mode)))
+
+(defun simple-paren--intern (left-char right-char &optional arg)
+  (let* ((wrap (and arg (or (equal '(4) arg)(equal 2 arg)) (ignore-errors (not (eq (point) (mark))))))
+	 (times (if wrap
 		    1
-		     (prefix-numeric-value arg)))
-	 end erg padding fillchar)
-    (if no-wrap
-	(progn
-	  (insert left-char)
-	  (insert right-char))
-      (if (region-active-p)
-	  (progn
-	    (setq end (copy-marker (region-end)))
-	    (goto-char (region-beginning)))
-	(unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
-	  (skip-chars-backward simple-paren-backward-skip-chars)))
-      (when (and simple-paren-honor-padding-p (member (char-after) (list 32 9)))
-	(setq fillchar (char-after))
-	(save-excursion
-	  (setq padding (skip-chars-forward " \t" (line-end-position)))))
-      (dotimes (i times)
-	(insert left-char))
-      (if (region-active-p)
-	  (goto-char end)
-	  ;; travel symbols after point
-	  (skip-chars-forward " \t")
-	  (skip-chars-forward (char-to-string left-char))
-	  (skip-chars-forward simple-paren-skip-chars))
-      (when padding
-	(dotimes (i padding)
-	  (insert fillchar)))
-      (dotimes (i times)
-	(insert right-char))
-      (dotimes (i times)
-	(forward-char -1))
-      (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
-	(newline 2)
-	(indent-according-to-mode)
-	(forward-char 1)
-	(insert ?\;)
-	(forward-line -1)
-	(indent-according-to-mode)))))
+		  (prefix-numeric-value arg)))
+	 (beg (and wrap (ignore-errors (region-beginning))))
+	 (end (copy-marker (and beg (ignore-errors (region-end)))))
+	 fillchar padding)
+    (if (not (marker-position end))
+	(simple-paren--insert-literary left-char right-char times)
+      ;; Wrap region if active
+      (and beg end (goto-char beg))
+      (insert left-char)
+      (and simple-paren-honor-padding-p (member (char-after) (list 32 9))(setq fillchar (char-after)))
+      (and fillchar (setq padding (make-string (skip-chars-forward " \t" (line-end-position)) fillchar)))
+      (and (marker-position end) (goto-char end))
+      ;; travel symbols after point
+      ;; (skip-chars-forward " \t")
+      ;; (skip-chars-forward (char-to-string left-char))
+      ;; (skip-chars-forward simple-paren-skip-chars))
+      (unless (member major-mode simple-paren-braced-newline)
+	(when padding
+	  (unless (thing-at-point-looking-at padding)
+	    (insert padding))))
+      (insert right-char)
+      (when (member major-mode simple-paren-braced-newline)
+	(simple-paren--fix-braced-newline)))))
 
 (defmacro simple-paren-define (name code1 code2)
   "Define an insertion function with NAME, using char codes CODE1 and CODE2."
   (let ((func-name (intern (concat "simple-paren-" (symbol-name name))))
-        (docstring (concat "With \\[universal-argument] insert " (symbol-name name) "s literatim.
+        (docstring (concat "Insert " (symbol-name name) "s literatim by default.
 
-With active region, wrap around.
+With \\[universal-argument] and active region, wrap around.
 With numerical ARG 2 honor padding")))
     `(defun ,func-name (times)
        ,docstring
