@@ -1,23 +1,17 @@
 Simple Paren [![Build Status](https://travis-ci.org/andreas-roehler/simple-paren.svg?branch=master)](https://travis-ci.org/andreas-roehler/simple-paren)
 ===
 
-###### Insert paired delimiters, wrap symbols in front maybe
+###### Insert paired delimiters
+
+With C-u resp active region with wrap symbols
 
 Examples, cursor after pipe-symbol:
 
     (defun foo1 |       ==> (defun foo1 () 
 
+With active region until end of region
+
     |interactive        ==> (interactive)
-
-    int|eractive        ==> (interactive)
-
-With active region until end of word
-
-    int|eractive        ==> int(eractive)
-
-With C-u insert literally:
-
-    int|eractive        ==> (interactive)
 
 keep padding:
 

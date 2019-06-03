@@ -54,7 +54,7 @@
 ;; with active region and \\[universal-argument] until end of word
 ;; int|eractive		==> int(eractive)
 
-;; With ‘simple-paren-honor-padding-p’ set to ‘t’, active region 
+;; With ‘simple-paren-honor-padding-p’ set to ‘t’, active region
 ;; and \\[universal-argument]
 ;; | foo		==> ( foo )
 
@@ -384,50 +384,6 @@
   :type 'boolean
   :group 'convenience)
 
-;; (defun simple-paren--intern (left-char right-char arg)
-;;   (let* ((no-wrap (equal '(4) arg))
-;; 	 (times (if no-wrap
-;; 		    1
-;; 		     (prefix-numeric-value arg)))
-;; 	 end erg padding fillchar)
-;;     (if no-wrap
-;; 	(progn
-;; 	  (insert left-char)
-;; 	  (insert right-char))
-;;       (if (region-active-p)
-;; 	  (progn
-;; 	    (setq end (copy-marker (region-end)))
-;; 	    (goto-char (region-beginning)))
-;; 	(unless (or (eobp) (eolp)(member (char-after) (list 32 9)))
-;; 	  (skip-chars-backward simple-paren-backward-skip-chars)))
-;;       (when (and simple-paren-honor-padding-p (member (char-after) (list 32 9)))
-;; 	(setq fillchar (char-after))
-;; 	(save-excursion
-;; 	  (setq padding (skip-chars-forward " \t" (line-end-position)))))
-;;       (dotimes (i times)
-;; 	(insert left-char))
-;;       (if (region-active-p)
-;; 	  (goto-char end)
-;; 	  ;; travel symbols after point
-;; 	  (skip-chars-forward " \t")
-;; 	  (skip-chars-forward (char-to-string left-char))
-;; 	  (skip-chars-forward simple-paren-skip-chars))
-;;       (when padding
-;; 	(dotimes (i padding)
-;; 	  (insert fillchar)))
-;;       (dotimes (i times)
-;; 	(insert right-char))
-;;       (dotimes (i times)
-;; 	(forward-char -1))
-;;       (when (and (eq (char-after) ?})(member major-mode simple-paren-braced-newline))
-;; 	(newline 2)
-;; 	(indent-according-to-mode)
-;; 	(forward-char 1)
-;; 	(insert ?\;)
-;; 	(forward-line -1)
-;; 	(indent-according-to-mode)))))
-
-
 (defun simple-paren--insert-literary (left-char right-char times)
   (dotimes (_ times)
     (insert left-char)
@@ -444,17 +400,21 @@
     (indent-according-to-mode)))
 
 (defun simple-paren--intern (left-char right-char &optional arg)
-  (let* ((wrap (and arg (or (equal '(4) arg)(equal 2 arg)) (ignore-errors (not (eq (point) (mark))))))
+  (let* ((wrap (and (ignore-errors (not (eq (point) (mark)))) (or (eq 4 (prefix-numeric-value arg))(use-region-p) transient-mark-mode)))
 	 (times (if wrap
 		    1
 		  (prefix-numeric-value arg)))
-	 (beg (and wrap (ignore-errors (region-beginning))))
-	 (end (copy-marker (and beg (ignore-errors (region-end)))))
+	 (beg (and wrap (or  (eq 4 (prefix-numeric-value arg)) (use-region-p)) (ignore-errors (region-beginning))))
+	 (end (copy-marker (and beg (or (eq 4 (prefix-numeric-value arg))(use-region-p)) (ignore-errors (region-end)))))
+	 ;; (face	(or (ignore-errors (eq 'region (get-char-property (1- (point)) 'face)))
+	 ;; 	    (eq 'region (get-char-property (point) 'face))))
 	 fillchar padding)
-    (if (not (marker-position end))
+    (if 
+	;; (not (and face beg end))
+	(not (and beg end))
 	(simple-paren--insert-literary left-char right-char times)
       ;; Wrap region if active
-      (and beg end (goto-char beg))
+      (goto-char beg)
       (insert left-char)
       (and simple-paren-honor-padding-p (member (char-after) (list 32 9))(setq fillchar (char-after)))
       (and fillchar (setq padding (make-string (skip-chars-forward " \t" (line-end-position)) fillchar)))
