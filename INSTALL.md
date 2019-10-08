@@ -1,8 +1,8 @@
 ##### Install
 
-In order to load simple-paren-mode from start, put the directory where the file resides into your emacs-path. For example:
+In order to load simple-paren-mode from start, put the directory where the file resides into your Emacs path. For example:
 
-(add-to-list 'load-path "PATH/TO/simple-paren.el/") 
+(add-to-list 'load-path "PATH/TO/simple-paren.el") 
 (require 'simple-paren)
 
 After loading the file, M-x simple-paren-mode RET will turn the mode on, if it was off.
