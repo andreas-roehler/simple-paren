@@ -2,13 +2,7 @@ Simple Paren [![Build Status](https://travis-ci.org/andreas-roehler/simple-paren
 ===
 
 ###### Install 
-After loading the file, M-x simple-paren-mode RET will turn to mode on, if it was off.
-
-It will turn it off, it it was on.
-
-Maybe edit the keymap in ‘simple-paren-mode-map’ at the end of the
-file at your convenience.
-
+See INSTALL.md
 
 ###### Insert paired delimiters
 
