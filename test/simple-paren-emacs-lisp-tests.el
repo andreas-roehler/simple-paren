@@ -39,16 +39,16 @@
     (push-mark) 
     (goto-char (point-min))
     (simple-paren-parentize '(4))
+    (goto-char (point-max)) 
     (should (eq (char-before) ?\)))))
 
 (ert-deftest simple-paren--elisp-colon-test-1 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
-      (forward-char -1)
     (push-mark)
     (goto-char (point-min))
     (simple-paren--intern ?: ?: '(4))
-    (should (eq (char-before) ?:))
+    (should (eq (char-after) ?:))
     (goto-char (point-min))
     (should (eq (char-after) ?:))))
 
@@ -74,6 +74,7 @@
     (simple-paren-doublequote '(4))
     ;; (should (eq (char-after) ?\"))
     ;; (should (eq (char-before) ?\s))
+    (goto-char (point-max)) 
     (should (looking-back "\" foo \"" (line-beginning-position)))))
 
 (ert-deftest simple-paren--elisp-doublequote-test-FivewW ()
@@ -84,6 +85,7 @@
     (simple-paren-doublequote '(4))
     ;; (should (eq (char-after) ?\"))
     ;; (should (eq (char-before) ?\s))
+    (goto-char (point-max)) 
     (should (looking-back "\" foo \"" (line-beginning-position)))))
 
 (ert-deftest simple-paren--elisp-paren-test-1 ()
@@ -167,17 +169,33 @@
     (simple-paren-brace 1)
     (should (eq (char-after) ?}))))
 
-;; Only test fails
+;; Test fails in batch-mode only
 ;; (ert-deftest simple-paren--doublequote-test-OW6P9C ()
 ;;   (simple-paren-test-with-elisp-buffer
 ;;       "(defun foo1 (&optional beg end)"
 ;;       (search-backward "o")
 ;;     (push-mark)
 ;;     (goto-char (point-max))
-;;     (simple-paren--intern ?\" ?\")
-;;     (should (eq (char-before) ?\"))
+;;     (exchange-point-and-mark)
+;;     (sit-for 0.1) 
+;;     (simple-paren-doublequote 1)
+;;     (should (eq (char-after) ?\"))
 ;;     (search-backward "o")
 ;;     (should (eq (char-before) ?\"))))
+
+(ert-deftest simple-paren-angled-percent-test-wuSxlr ()
+  (simple-paren-test-with-elisp-buffer
+      ""
+      (simple-paren-angled-percent 1)
+    (should (eq (char-after) ?%))
+    (should (eq (char-before) ?%))))
+
+(ert-deftest simple-paren-angled-percent-equal-test-wuSxlr ()
+  (simple-paren-test-with-elisp-buffer
+      ""
+      (simple-paren-angled-percent-equal 1)
+    (should (eq (char-after) ?%))
+    (should (eq (char-before) ?=))))
 
 (provide 'simple-paren-emacs-lisp-tests)
 ;;; simple-paren-emacs-lisp-tests.el ends here
