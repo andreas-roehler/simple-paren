@@ -1,6 +1,9 @@
 Simple Paren [![Build Status](https://travis-ci.org/andreas-roehler/simple-paren.svg?branch=master)](https://travis-ci.org/andreas-roehler/simple-paren)
 ===
 
+###### Install 
+See INSTALL.md
+
 ###### Insert paired delimiters
 
 With C-u resp active region with wrap symbols
