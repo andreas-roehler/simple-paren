@@ -1,8 +1,8 @@
 ;;; simple-paren.el --- Non-electrical insert paired delimiter, wrap -*- lexical-binding: t; -*-
 
-;; Version: 0.1
+;; Version: 0.2
 
-;; Copyright (C) 2016-2019  Andreas Röhler, Steve Purcell
+;; Copyright (C) 2016-2021  Andreas Röhler, Steve Purcell
 ;; See also http://www.unicode.org/L2/L2013/13046-BidiBrackets.txt
 
 ;; Author: Andreas Röhler, Steve Purcell
@@ -399,12 +399,9 @@
     (indent-according-to-mode)))
 
 (defun simple-paren--intern (left-char right-char &optional arg)
-  (let* ((wrap (and (ignore-errors (not (eq (point) (mark)))) (or (eq 4 (prefix-numeric-value arg))(use-region-p) transient-mark-mode)))
-	 (times (if wrap
-		    1
-		  (prefix-numeric-value arg)))
-	 (beg (and wrap (or (eq 4 (prefix-numeric-value arg)) (use-region-p)) (ignore-errors (region-beginning))))
-	 (end (copy-marker (and beg (or (eq 4 (prefix-numeric-value arg))(use-region-p)) (ignore-errors (region-end)))))
+  (let* ((times (prefix-numeric-value arg))
+	 (beg (ignore-errors (region-beginning)))
+	 (end (and (ignore-errors (region-end)) (copy-marker (region-end))))
 	 ;; (face	(or (ignore-errors (eq 'region (get-char-property (1- (point)) 'face)))
 	 ;; 	    (eq 'region (get-char-property (point) 'face))))
 	 fillchar padding)
@@ -413,22 +410,27 @@
 	(not (and beg end))
 	(simple-paren--insert-literary left-char right-char times)
       ;; Wrap region if active
+      (progn
+	(goto-char beg)
+	(insert left-char)
+	(and simple-paren-honor-padding-p (member (char-after) (list 32 9))(setq fillchar (char-after)))
+	(and fillchar (setq padding (make-string (skip-chars-forward " \t" (line-end-position)) fillchar)))
+	(and (marker-position end) (goto-char end))
+	;; travel symbols after point
+	;; (skip-chars-forward " \t")
+	;; (skip-chars-forward (char-to-string left-char))
+	;; (skip-chars-forward simple-paren-skip-chars))
+	(unless (member major-mode simple-paren-braced-newline)
+	  (when padding
+	    (unless (thing-at-point-looking-at padding)
+	      (insert padding))))
+	(insert right-char)
+	(setq end (point))
+	(when (member major-mode simple-paren-braced-newline)
+	  (simple-paren--fix-braced-newline)))
       (goto-char beg)
-      (insert left-char)
-      (and simple-paren-honor-padding-p (member (char-after) (list 32 9))(setq fillchar (char-after)))
-      (and fillchar (setq padding (make-string (skip-chars-forward " \t" (line-end-position)) fillchar)))
-      (and (marker-position end) (goto-char end))
-      ;; travel symbols after point
-      ;; (skip-chars-forward " \t")
-      ;; (skip-chars-forward (char-to-string left-char))
-      ;; (skip-chars-forward simple-paren-skip-chars))
-      (unless (member major-mode simple-paren-braced-newline)
-	(when padding
-	  (unless (thing-at-point-looking-at padding)
-	    (insert padding))))
-      (save-excursion (insert right-char)
-		      (when (member major-mode simple-paren-braced-newline)
-			(simple-paren--fix-braced-newline))))))
+      (push-mark)
+      (goto-char end))))
 
 (defmacro simple-paren-define (name code1 code2)
   "Define an insertion function with NAME, using char codes CODE1 and CODE2."
@@ -582,6 +584,10 @@ With numerical ARG 2 honor padding")))
     (define-key map [(super ?%)] 'simple-paren-percent)
     (define-key map [(super ?\~)] 'simple-paren-tild)
     (define-key map [(super ?\´)] 'simple-paren-acute-accent)
+    ;; (error "To bind the key s-SPC, use [?\\s- ], not [s-SPC]")
+    (define-key map [(?\s- )] 'simple-paren-whitespace)
+    ;; (kbd "C-j")
+    ;; (define-key map [(super SPC)] 'simple-paren-whitespace)
     ;; (define-key map [(super ?\!)] 'simple-paren-exclamation-mark)
     map))
 
