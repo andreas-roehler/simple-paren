@@ -48,7 +48,7 @@
     (push-mark)
     (goto-char (point-min))
     (simple-paren--intern ?: ?: '(4))
-    (should (eq (char-before) ?:))
+    (should (eq (char-after) ?:))
     (goto-char (point-min))
     (should (eq (char-after) ?:))))
 
@@ -135,7 +135,7 @@
       (push-mark nil nil t)
     (beginning-of-line)
     (simple-paren-ogham-feather-mark 1)
-    (should (eq (char-before) ?᚜))))
+    (should (eq (char-after) ?᚜))))
 
 
 (ert-deftest simple-paren--elisp-paren-test-8 ()

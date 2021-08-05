@@ -414,9 +414,10 @@
       (progn
 	(goto-char beg)
 	(insert left-char)
+	(setq beg (point))
 	(and simple-paren-honor-padding-p (member (char-after) (list 32 9))(setq fillchar (char-after)))
 	(and fillchar (setq padding (make-string (skip-chars-forward " \t" (line-end-position)) fillchar)))
-	(and (marker-position end) (goto-char end))
+	(and (marker-position end) (< (point) end)(goto-char end))
 	;; travel symbols after point
 	;; (skip-chars-forward " \t")
 	;; (skip-chars-forward (char-to-string left-char))
@@ -425,8 +426,8 @@
 	  (when padding
 	    (unless (thing-at-point-looking-at padding)
 	      (insert padding))))
-	(insert right-char)
 	(setq end (point))
+	(insert right-char)
 	(when (member major-mode simple-paren-braced-newline)
 	  (simple-paren--fix-braced-newline)))
       (goto-char beg)
