@@ -400,7 +400,7 @@
 
 (defun simple-paren--intern (left-char right-char &optional arg)
   (let* ((times (prefix-numeric-value arg))
-	 (beg (ignore-errors (and (<= (point) (region-beginning))  (region-beginning))))
+	 (beg (ignore-errors (or (and (eq (region-beginning) (mark)) (region-beginning))(and (<= (point) (region-beginning))  (region-beginning)))))
 	 (end (and (ignore-errors (region-end)) (copy-marker (region-end))))
      (deactivate-mark nil)
 	 ;; (face	(or (ignore-errors (eq 'region (get-char-property (1- (point)) 'face)))
