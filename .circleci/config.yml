@@ -1,7 +1,12 @@
-language: emacs-lisp
+name: CI
 
-env:
-  EMACS=emacs
+on:
+  pull_request:
+  push:
+    paths-ignore:
+    - '**.md'
 
-script:
-  ./run-travis-ci.sh 
+jobs:
+  build:
+    - name: Check startup
+      run: ./test-startup.sh
