@@ -310,7 +310,6 @@
 (defun simple-paren--return-complement-char-maybe (erg)
   "For example return \"}\" for \"{\" but keep \"\\\"\"."
   (pcase erg
-    (?‘ ?’)
     (?` ?')
     (?< ?>)
     (?> ?<)
@@ -519,7 +518,6 @@ With numerical ARG 2 honor padding")))
 (simple-paren-define pointing-angle-bracket ?\〈 ?\〉)
 (simple-paren-define pointing-curved-angle-bracket ?\⧼ ?\⧽)
 (simple-paren-define s-shaped-bag-delimiter ?\⟅ ?\⟆)
-(simple-paren-define semicolon ?\; ?\;)
 (simple-paren-define sideways-u-bracket ?\⸦ ?\⸧)
 (simple-paren-define singlequote ?\' ?\')
 (simple-paren-define slash ?\/ ?\/)
