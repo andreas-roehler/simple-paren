@@ -81,14 +81,6 @@ entfernt () {
 -f ert-run-tests-batch-and-exit
 }
 
-entfernt () {
-    $EMACS -Q --batch \
--load $FILE1 \
--load $SETUP \
--l $TEST1 \
--f ert-run-tests-batch-and-exit
-}
-
 WERKSTATT=${WERKSTATT:-1}
 
 echo "\$WERKSTATT: $WERKSTATT"

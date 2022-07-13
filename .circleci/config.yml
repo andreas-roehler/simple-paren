@@ -5,7 +5,7 @@ aktion:
   ls -lart
 
 jobs:
-  opemode:
+  spmode:
     docker:
       # - image: ubuntu-2004:202010-01
       - image: silex/emacs:27.2
@@ -29,13 +29,13 @@ jobs:
             --eval "(setq python-indent-offset 4)" \
             --eval "(setq python-indent-guess-indent-offset nil)" \
             --eval "(setq python-indent-guess-indent-offset-verbose nil)" \
-            --eval "(load \"/root/simple-paren/test/simple-paren-setup-tests.el\")" \
+            --eval "(load \"/root/simple-paren/test/simple-paren-setup-ert-tests.el\")" \
             --eval "(load \"/root/simple-paren/test/simple-paren-emacs-lisp-tests.el\")" \
             --eval "(sit-for 1)" \
             -f ert-run-tests-batch-and-exit
 
 
 workflows:
-  opemode-workflow:
+  spmode-workflow:
     jobs:
-      - opemode  
+      - spmode  
