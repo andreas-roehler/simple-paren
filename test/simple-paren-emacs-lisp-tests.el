@@ -1,6 +1,6 @@
 ;;; simple-paren-emacs-lisp-tests.el ---  Tests -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2010-2016 Andreas Röhler, unless
+;; Copyright (C) 2010-2022 Andreas Röhler, unless
 ;; indicated otherwise
 
 ;; Author: Andreas Röhler <andreas.roehler@easy-emacs.de>, unless
@@ -36,7 +36,7 @@
 (ert-deftest simple-paren--elisp-parentize-test-2 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
-    (push-mark)
+    (set-mark (point))
     (goto-char (point-min))
     (simple-paren-parentize '(4))
     (goto-char (point-max))
@@ -45,7 +45,7 @@
 (ert-deftest simple-paren--elisp-colon-test-1 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
-    (push-mark)
+    (set-mark (point))
     (goto-char (point-min))
     (simple-paren--intern ?: ?: '(4))
     (should (eq (char-after) ?:))
@@ -70,20 +70,27 @@
 (ert-deftest simple-paren--elisp-doublequote-test-fk7ByP ()
   (simple-paren-test-with-elisp-buffer
       " foo "
-      (push-mark)
+      (set-mark (point))
     (goto-char (point-min))
     (simple-paren-doublequote '(4))
     (goto-char (point-max))
-    (should (looking-back "\" foo \"" (line-beginning-position)))))
+    (sit-for 0.1)
+    ;; (should (looking-back "\" foo \"" (line-beginning-position)))
+    (should (eq (char-before) 34))
+    (should (eq 8 (point)))
+    ))
 
 (ert-deftest simple-paren--elisp-doublequote-test-FivewW ()
   (simple-paren-test-with-elisp-buffer
       " foo"
-      (push-mark)
+      (set-mark (point))
     (goto-char (point-min))
     (simple-paren-doublequote '(4))
     (goto-char (point-max))
-    (should (looking-back "\" foo \"" (line-beginning-position)))))
+    (sit-for 0.1)
+    (should (eq (char-before) 34))
+    ;; (should (looking-back "\" foo \"" (line-beginning-position)))
+    ))
 
 (ert-deftest simple-paren--elisp-paren-test-1 ()
   (simple-paren-test-with-elisp-buffer
@@ -132,7 +139,7 @@
 (ert-deftest simple-paren--elisp-paren-test-7 ()
   (simple-paren-test-with-elisp-buffer
       "[asdf]"
-      (push-mark nil nil t)
+      (set-mark (point))
     (beginning-of-line)
     (simple-paren-ogham-feather-mark 1)
     (should (eq (char-after) ?᚜))))

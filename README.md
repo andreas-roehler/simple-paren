@@ -1,3 +1,5 @@
+[![CircleCI simple-paren](https://circleci.com/gh/andreas-roehler/simple-paren.svg?style=svg)](https://circleci.com/gh/andreas-roehler/simple-paren)
+
 ###### Install 
 See INSTALL.md
 
