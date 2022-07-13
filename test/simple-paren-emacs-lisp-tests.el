@@ -33,15 +33,6 @@
     (simple-paren-parentize 1)
     (should (eq (char-after) ?\)))))
 
-(ert-deftest simple-paren--elisp-parentize-test-2 ()
-  (simple-paren-test-with-elisp-buffer
-    "asdf"
-    (set-mark (point))
-    (goto-char (point-min))
-    (simple-paren-parentize '(4))
-    (goto-char (point-max))
-    (should (eq (char-before) ?\)))))
-
 (ert-deftest simple-paren--elisp-colon-test-1 ()
   (simple-paren-test-with-elisp-buffer
     "asdf"
@@ -66,31 +57,6 @@
     (simple-paren--intern ?\" ?\" 1)
     (should (eq (char-before) ?\"))
     (should (eq (char-after) ?\"))))
-
-(ert-deftest simple-paren--elisp-doublequote-test-fk7ByP ()
-  (simple-paren-test-with-elisp-buffer
-      " foo "
-      (set-mark (point))
-    (goto-char (point-min))
-    (simple-paren-doublequote '(4))
-    (goto-char (point-max))
-    (sit-for 0.1)
-    ;; (should (looking-back "\" foo \"" (line-beginning-position)))
-    (should (eq (char-before) 34))
-    (should (eq 8 (point)))
-    ))
-
-(ert-deftest simple-paren--elisp-doublequote-test-FivewW ()
-  (simple-paren-test-with-elisp-buffer
-      " foo"
-      (set-mark (point))
-    (goto-char (point-min))
-    (simple-paren-doublequote '(4))
-    (goto-char (point-max))
-    (sit-for 0.1)
-    (should (eq (char-before) 34))
-    ;; (should (looking-back "\" foo \"" (line-beginning-position)))
-    ))
 
 (ert-deftest simple-paren--elisp-paren-test-1 ()
   (simple-paren-test-with-elisp-buffer
@@ -121,7 +87,6 @@
     (simple-paren-parentize 1)
     (should (eq (char-after) ?\)))))
 
-
 (ert-deftest simple-paren--elisp-paren-test-5 ()
   (simple-paren-test-with-elisp-buffer
       "[]"
@@ -143,7 +108,6 @@
     (beginning-of-line)
     (simple-paren-ogham-feather-mark 1)
     (should (eq (char-after) ?᚜))))
-
 
 (ert-deftest simple-paren--elisp-paren-test-8 ()
   (simple-paren-test-with-elisp-buffer
