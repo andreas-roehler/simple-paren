@@ -555,13 +555,17 @@ With numerical ARG 2 honor padding")))
 (defvar simple-paren-mode-map nil)
 (defconst simple-paren-mode-map
   (let ((map (make-sparse-keymap)))
-    ;; js <%= ?%>
+    ;; <%= ?%>
     (define-key map [(control ?<) (control %)(=)] 'simple-paren-angled-percent-equal)
-    ;; js <% ?%>
+    ;; <%asdf%>
     (define-key map [(control ?<) (?%)] 'simple-paren-angled-percent)
+    ;; /*asdf*/
     (define-key map [(control ?/) (?*)] 'simple-paren-slashstar)
+    ;; {-asdf-}
     (define-key map [(control ?{) (?-)] 'simple-paren-braceminus)
+    ;; {-#asdf#-}
     (define-key map [(control ?{) (?#)] 'simple-paren-braceminussharp)
+    ;; {-@asdf@-}
     (define-key map [(control ?{) (?@)] 'simple-paren-braceminuset)
     (define-key map [(super ?\")] 'simple-paren-doublequote)
     (define-key map [(super ?\#)] 'simple-paren-hash)
@@ -569,6 +573,7 @@ With numerical ARG 2 honor padding")))
     (define-key map [(super ?\')] 'simple-paren-singlequote)
     (define-key map [(super ?\()] 'simple-paren-parentize)
     (define-key map [(super ?\*)] 'simple-paren-star)
+    (define-key map [(super ?\@)] 'simple-paren-at)
     (define-key map [(super ?\+)] 'simple-paren-cross)
     (define-key map [(super ?\,)] 'simple-paren-comma)
     (define-key map [(super ?\-)] 'simple-paren-hyphen)
